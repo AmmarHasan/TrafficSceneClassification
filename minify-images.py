@@ -7,9 +7,9 @@ noOfLanes = 4
 labels = []
 labelsFileName = 'labels.data'
 counter = 0
-fullResImageDiretory = 'Data'
-lowResImageDirectory = 'TransformedData'
-for filePath in Path(fullResImageDiretory).glob('**/**/*.jpg'):
+fullResImageDirectory = 'Data'
+lowResImageDirectory = 'ImageCapture'
+for filePath in Path(fullResImageDirectory).glob('**/**/*.jpg'):
     im = Image.open(filePath)
     nx,ny = im.size
     # Resize images from 1280x720 to 256x144
@@ -29,9 +29,5 @@ npLabelsHotVector[np.arange(npLabels.size), npLabels-1] = 1
 with open(lowResImageDirectory + '/' + labelsFileName, 'wb') as filehandle:
     # store the data as binary data stream
     cPickle.dump(npLabelsHotVector, filehandle)
-with open(lowResImageDirectory + '/' + labelsFileName, 'rb') as filehandle:
-    # read the data as binary data stream
-    placesList = cPickle.load(filehandle)
 
-
-print(np.array(placesList).argmax(axis=0))
+print(npLabelsHotVector.argmax(axis=0))

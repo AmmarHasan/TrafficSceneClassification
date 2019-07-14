@@ -80,5 +80,7 @@ ehthumbs.db
 
 Data
 ImageCapture
+labels.data
+imagesAsArray.data
 venv
 venv2
