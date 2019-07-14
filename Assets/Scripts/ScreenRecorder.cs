@@ -127,8 +127,8 @@ public class ScreenRecorder : MonoBehaviour
 
     void Start()
     {
-        width = 192;
-        height = 108;
+        width = 1280;
+        height = 720;
 
         if (capture)
         {
@@ -182,10 +182,10 @@ public class ScreenRecorder : MonoBehaviour
         RenderTexture.active = renderTexture;
         screenShot.ReadPixels(rect, 0, 0);
         //TextureScale.Bilinear(screenShot, captureWidth, captureHeight);
-        if (grayscale)
-        {
-            screenShot = Image2Grayscale.ConvertToGrayscale(screenShot);
-        }
+        // if (grayscale)
+        // {
+        //     screenShot = Image2Grayscale.ConvertToGrayscale(screenShot);
+        // }
 
         // reset active camera texture and render texture
         camera.targetTexture = null;
