@@ -143,10 +143,22 @@ public class EasyRoadsGenerator : MonoBehaviour
                     roadType.roadWidth = 12;
                     roadType.Update();
                     break;
+                case 3:
+                    // Falls zwei Spuren benötigt werden (roadMaterial stimmt schon)
+                    roadType.roadMaterial = Resources.Load<Material>("Road3Lanes");
+                    roadType.roadWidth = 9;
+                    roadType.Update();
+                    break;
                 case 2:
-                default:
                     // Falls zwei Spuren benötigt werden (roadMaterial stimmt schon)
                     roadType.roadWidth = 6;
+                    roadType.Update();
+                    break;
+                case 1:
+                default:
+                    // Falls zwei Spuren benötigt werden (roadMaterial stimmt schon)
+                    roadType.roadMaterial = Resources.Load<Material>("Road1Lane");
+                    roadType.roadWidth = 3;
                     roadType.Update();
                     break;
             }
@@ -397,9 +409,15 @@ public class EasyRoadsGenerator : MonoBehaviour
             case 4:
                 rightMiddleLane = Vector3.Slerp(firstMarker, firstSplineRightSide, 0.75f);
                 break;
+            case 3:
+                rightMiddleLane = Vector3.Slerp(firstMarker, firstSplineRightSide, 0.6f);
+                break;
             case 2:
-            default:
                 rightMiddleLane = Vector3.Slerp(firstMarker, firstSplineRightSide, 0.5f);
+                break;
+            case 1:
+            default:
+                rightMiddleLane = Vector3.Slerp(firstMarker, firstSplineRightSide, 0.25f);
                 break;
         }
 

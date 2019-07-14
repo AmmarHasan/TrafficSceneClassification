@@ -78,5 +78,7 @@ ehthumbs.db
 *.stackdump
 
 
+Data
 ImageCapture
 venv
+venv2

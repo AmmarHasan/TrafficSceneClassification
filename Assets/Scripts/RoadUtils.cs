@@ -29,6 +29,8 @@ public static class RoadUtils
                 if (lane == 1 || lane == 4) return 0.6f;
                 if (lane == 2 || lane == 3) return 0.4f;
                 return 0.15f;
+            case 3:
+                return 0.01f;
             case 2:
             default:
                 // Hat nur eine Spur
