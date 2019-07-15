@@ -23,7 +23,5 @@ for i in range(0, len(os.listdir(dataDirectory))):
   print(filePath)
 
 
-imagesAsArrayFile = 'imagesAsArray.data'
-with open(imagesAsArrayFile, 'wb') as filehandle:
-    # store the data as binary data stream
-    cPickle.dump(imgAsArray, filehandle)
+imagesAsArrayFile = 'imagesAsArray'
+np.save(imagesAsArrayFile,imgAsArray)
