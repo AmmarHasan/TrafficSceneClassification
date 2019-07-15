@@ -9,10 +9,10 @@ def load_image(img) :
     data = np.asarray(img, dtype="float32")
     return data
 
-labelsFileName = 'labels.data'
 fullResImageDirectory = 'Data'
 lowResImageDirectory = 'ImageCapture'
-imagesAsArrayFile = 'imagesAsArray.data'
+labelsFileName = 'labelsAll.data'
+imagesAsArrayFile = 'imagesAsArray.npy'
 noOfLanes = 4
 
 counter = 0
@@ -23,9 +23,9 @@ for filePath in Path(fullResImageDirectory).glob('**/**/*.jpg'):
     im = Image.open(filePath)
     nx,ny = im.size
     # Resize images from 1280x720 to 256x144
-    im.resize((int(nx/5),int(ny/5))).save(lowResImageDirectory + '/' + counter.__str__()+'.jpg')
-    imgAsArray.append(load_image(im))
+    im = im.resize((int(nx/5),int(ny/5)))
     im.save(lowResImageDirectory + '/' + counter.__str__()+'.jpg')
+    imgAsArray.append(load_image(im))
 
     counter+=1
     label = int(filePath.parts[1][-1:])
@@ -38,11 +38,12 @@ npLabels = np.array(labels)
 npLabelsHotVector = np.zeros((npLabels.size, noOfLanes))
 npLabelsHotVector[np.arange(npLabels.size), npLabels-1] = 1
 
+print(npLabels.shape)
+np.save(labelsFileName, npLabels)
+npLabels = None
+print(npLabelsHotVector.shape)
+np.save("labelsVector.npy", npLabelsHotVector)
 
-# Store Labels  as binary data stream
-with open(labelsFileName, 'wb') as filehandle:
-    cPickle.dump(npLabelsHotVector, filehandle)
 
-# Store Image Array as binary data stream
-with open(imagesAsArrayFile, 'wb') as filehandle:
-    cPickle.dump(imgAsArray, filehandle)
+print("writing image array")
+np.save(imagesAsArrayFile, imgAsArray)
