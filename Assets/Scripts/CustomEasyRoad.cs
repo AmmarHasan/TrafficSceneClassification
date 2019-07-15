@@ -66,15 +66,28 @@ public class CustomEasyRoad
                 Vector3[] directionMarkers = null;
 
                 // Die Richtung des Autos/Lane holen und setzen
-                if (lane < (numberOfTracks / 2))
-                {
-                    directionMarkers = markersL;
-                    look = (markers[Mathf.Max(0, i - 1)] - markers[Mathf.Min(markers.Length - 1, i + 1)]);
-                }
-                else
-                {
-                    directionMarkers = markersR;
-                    look = (markers[Mathf.Min(markers.Length - 1, i + 1)] - markers[Mathf.Max(0, i - 1)]);
+                if(numberOfTracks==3) {
+                    if (lane <= 1)
+                    {
+                        directionMarkers = markersL;
+                        look = (markers[Mathf.Max(0, i - 1)] - markers[Mathf.Min(markers.Length - 1, i + 1)]);
+                    }
+                    else
+                    {
+                        directionMarkers = markersR;
+                        look = (markers[Mathf.Min(markers.Length - 1, i + 1)] - markers[Mathf.Max(0, i - 1)]);
+                    }
+                } else {
+                    if (lane < (numberOfTracks / 2))
+                    {
+                        directionMarkers = markersL;
+                        look = (markers[Mathf.Max(0, i - 1)] - markers[Mathf.Min(markers.Length - 1, i + 1)]);
+                    }
+                    else
+                    {
+                        directionMarkers = markersR;
+                        look = (markers[Mathf.Min(markers.Length - 1, i + 1)] - markers[Mathf.Max(0, i - 1)]);
+                    }
                 }
 
                 // Den RoadSlerp holen
