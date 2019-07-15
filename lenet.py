@@ -11,6 +11,10 @@ labels = np.load("labelsAll.npy")
 print(imagesAsArray.shape)
 print(labels.shape)
 
+imagesAsArray = imagesAsArray/255.0
+print(imagesAsArray[0])
+
+# Shuffling and Splitting training & testing data
 N = imagesAsArray.shape[0];
 rawIndices = np.array(range(0,N));
 npr.shuffle(rawIndices);
