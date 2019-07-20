@@ -1,49 +1,48 @@
-import tensorflow as tf;
-from tensorflow import keras;
-import numpy as np;
-import numpy.random as npr;
-import _pickle as cPickle
-from PIL import Image;
-import os
+import tensorflow as tf, numpy as np, numpy.random as npr
+from tensorflow import keras
+from PIL import Image
 
+# Config
 imagesAsArray = np.load("imagesAsArray.npy")
 labels = np.load("labelsAll.npy")
-print(imagesAsArray.shape)
-print(labels.shape)
+numberOfTrainingImages = 12000
+numberOfLanes = 4
+imgWidth = 256
+imgHeight = 144
+neuronsInImage = imgWidth*imgHeight
 
-imagesAsArray = imagesAsArray/255.0
-print(imagesAsArray[0])
-
-# Shuffling and Splitting training & testing data
-N = imagesAsArray.shape[0];
-rawIndices = np.array(range(0,N));
-npr.shuffle(rawIndices);
-trainIndice = rawIndices[0:4000];
-testIndice = rawIndices[4000:6000];
-traind = imagesAsArray[trainIndice];
-trainl = labels[trainIndice];
-testd = imagesAsArray[testIndice];
-testl = labels[testIndice];
-
-# print(traind[0])
-# img = Image.fromarray( traind[0])
+# # Display Image
+# print(imagesAsArray[0])
+# img = Image.fromarray(imagesAsArray[0])
 # img.show()
 # print(trainl[0])
-# print(traind[10])
-# img = Image.fromarray( traind[10])
+# print(imagesAsArray[10])
+# img = Image.fromarray(imagesAsArray[10])
 # img.show()
 # print(trainl[10])
 
-numberOfLanes = 4
-imgWidth = 256;
-imgHeight = 144;
-neuronsInImage = imgWidth*imgHeight;
-traind = traind.reshape(-1, 144, 256,1);
-testd = testd.reshape(-1, 144, 256,1);
-print(traind.shape)
-print(trainl.shape)
+# Normalization and Flattening/Reshaping
+imagesAsArray = imagesAsArray/255.0
+imagesAsArray = imagesAsArray.reshape(-1, 144, 256,1)
+
+# Shuffling and Splitting training & testing data
+N = imagesAsArray.shape[0]
+rawIndices = np.array(range(0,N))
+npr.shuffle(rawIndices)
+trainIndice = rawIndices[0:numberOfTrainingImages]
+testIndice = rawIndices[numberOfTrainingImages:N]
+traind = imagesAsArray[trainIndice]
+trainl = labels[trainIndice]
+testd = imagesAsArray[testIndice]
+testl = labels[testIndice]
+
+# Logging config
 unique, counts = np.unique(trainl, return_counts=True)
-print(dict(zip(unique, counts)))
+print('Class Distribution: {}'.format(dict(zip(unique, counts))))
+print('Training Data Dimension: {}'.format(traind.shape))
+print('Training Label Dimension: {}'.format(trainl.shape))
+print('Testing Data Dimension: {}'.format(testd.shape))
+print('Testing Label Dimension: {}'.format(testl.shape))
 
 model = keras.models.Sequential([
   keras.layers.Conv2D(name='FirstConv2D', filters=6, kernel_size=(3, 3), activation='relu', padding="SAME"),
@@ -62,16 +61,14 @@ model.compile(optimizer=sgd,
               metrics=['accuracy'])
 
 # l=[np.where(r==1)[0][0] for r in labels]
-# model.fit(imagesAsArray[0:8000], labels[0:8000], epochs=5)
-model.fit(traind, trainl, epochs=20)
-              
+model.fit(traind, trainl, epochs=20, batch_size=60)
+
 # Evaluate the model on the test data using `evaluate`
 print('\n# Evaluate on test data')
 results = model.evaluate(testd, testl, batch_size=128)
 print('test loss, test acc:', results)
 
-# Generate predictions (probabilities -- the output of the last layer)
-# on new data using `predict`
+# Generate predictions (probabilities -- the output of the last layer) on new data using `predict`
 print('\n# Generate predictions for 3 samples')
 predictions = model.predict(testd[:3])
 print('predictions:', predictions)
