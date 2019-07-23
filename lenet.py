@@ -6,7 +6,7 @@ from PIL import Image
 
 # Config
 imagesAsArray = np.load("imagesAsArray.npy")
-labels = np.load("labelsAll.npy")
+labels = np.load("labelsVector.npy")
 numberOfTrainingImages = 12000
 numberOfLanes = 4
 imgWidth = 256
@@ -47,7 +47,7 @@ print('Testing Data Dimension: {}'.format(testd.shape))
 print('Testing Label Dimension: {}'.format(testl.shape))
 
 model = keras.models.Sequential([
-  keras.layers.Conv2D(name='FirstConv2D', filters=6, kernel_size=(3, 3), activation='relu', padding="SAME"),
+  keras.layers.Conv2D(name='FirstConv2D', filters=6, kernel_size=(3, 3), activation='relu', padding="SAME", input_shape=(imgHeight,imgWidth,1)),
   keras.layers.AveragePooling2D(name='FirstAvgPool', padding="SAME"),
   keras.layers.Conv2D(name='SecondConv2D', filters=16, kernel_size=(3, 3), activation='relu', padding="SAME"),
   keras.layers.AveragePooling2D(name='SecAvgPool', padding="SAME"),
@@ -64,7 +64,7 @@ model.compile(optimizer=sgd,
               metrics=['accuracy'])
 
 # l=[np.where(r==1)[0][0] for r in labels]
-model.fit(traind, trainl, epochs=20, batch_size=60, callbacks=[tensorBoard])
+model.summary()
 
 # Evaluate the model on the test data using `evaluate`
 print('\n# Evaluate on test data')
