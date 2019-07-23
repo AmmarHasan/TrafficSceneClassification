@@ -11,21 +11,14 @@ numberOfTrainingImages = 12000
 numberOfLanes = 4
 imgWidth = 256
 imgHeight = 144
-neuronsInImage = imgWidth*imgHeight
+EPOCHS = 100
+BATCH_SIZE = 64
+LR = 0.01
 
-# # Display Image
-# print(imagesAsArray[0])
-# img = Image.fromarray(imagesAsArray[0])
-# img.show()
-# print(trainl[0])
-# print(imagesAsArray[10])
-# img = Image.fromarray(imagesAsArray[10])
-# img.show()
-# print(trainl[10])
 
 # Normalization and Flattening/Reshaping
 imagesAsArray = imagesAsArray/255.0
-imagesAsArray = imagesAsArray.reshape(-1, 144, 256,1)
+imagesAsArray = imagesAsArray.reshape(-1, imgHeight, imgWidth,1)
 
 # Shuffling and Splitting training & testing data
 N = imagesAsArray.shape[0]
@@ -45,6 +38,10 @@ print('Training Data Dimension: {}'.format(traind.shape))
 print('Training Label Dimension: {}'.format(trainl.shape))
 print('Testing Data Dimension: {}'.format(testd.shape))
 print('Testing Label Dimension: {}'.format(testl.shape))
+print('EPOCHS: {}'.format(EPOCHS))
+print('BATCH_SIZE: {}'.format(BATCH_SIZE))
+print('Optimizer: SGD')
+print('Learning Rate: {}'.format(LR))
 
 model = keras.models.Sequential([
   keras.layers.Conv2D(name='FirstConv2D', filters=6, kernel_size=(3, 3), activation='relu', padding="SAME", input_shape=(imgHeight,imgWidth,1)),
@@ -58,20 +55,22 @@ model = keras.models.Sequential([
 ])
 tensorBoard = TensorBoard(log_dir="logs/{}".format(time()))
 
-sgd = keras.optimizers.SGD(lr=0.01)
+sgd = keras.optimizers.SGD(lr=LR)
 model.compile(optimizer=sgd,
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 # l=[np.where(r==1)[0][0] for r in labels]
+model.fit(traind, trainl, epochs=EPOCHS, batch_size=BATCH_SIZE, callbacks=[tensorBoard])
 model.summary()
 
 # Evaluate the model on the test data using `evaluate`
 print('\n# Evaluate on test data')
-results = model.evaluate(testd, testl, batch_size=128)
+results = model.evaluate(testd, testl, batch_size=BATCH_SIZE)
 print('test loss, test acc:', results)
 
 # Generate predictions (probabilities -- the output of the last layer) on new data using `predict`
 print('\n# Generate predictions for 3 samples')
 predictions = model.predict(testd[:3])
 print('predictions:', predictions)
+print('actual', testl[:3])
