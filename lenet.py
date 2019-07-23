@@ -1,5 +1,7 @@
 import tensorflow as tf, numpy as np, numpy.random as npr
 from tensorflow import keras
+from tensorflow.python.keras.callbacks import TensorBoard;
+from time import time;
 from PIL import Image
 
 # Config
@@ -54,6 +56,7 @@ model = keras.models.Sequential([
   keras.layers.Dense(name='SecDense', units=84, activation='relu'),
   keras.layers.Dense(name='ThirdDense', units=numberOfLanes, activation = 'softmax')
 ])
+tensorBoard = TensorBoard(log_dir="logs/{}".format(time()))
 
 sgd = keras.optimizers.SGD(lr=0.01)
 model.compile(optimizer=sgd,
@@ -61,7 +64,7 @@ model.compile(optimizer=sgd,
               metrics=['accuracy'])
 
 # l=[np.where(r==1)[0][0] for r in labels]
-model.fit(traind, trainl, epochs=20, batch_size=60)
+model.fit(traind, trainl, epochs=20, batch_size=60, callbacks=[tensorBoard])
 
 # Evaluate the model on the test data using `evaluate`
 print('\n# Evaluate on test data')
