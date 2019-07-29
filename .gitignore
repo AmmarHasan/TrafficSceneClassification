@@ -77,6 +77,11 @@ ehthumbs.db
 
 *.stackdump
 
+# VSCode SSH Extension
+.code-workspace.code-workspace
+
+# Jupyter Lab
+.ipynb_checkpoints
 
 Data
 ImageCapture
