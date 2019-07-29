@@ -1,5 +1,5 @@
 absl-py==0.6.1
-ansible==2.7.6
+ansible==2.7.8
 apt-clone==0.2.1
 apturl==0.5.2
 asn1crypto==0.24.0
@@ -38,7 +38,7 @@ ipython==7.7.0
 ipython-genutils==0.2.0
 iso8601==0.1.12
 jedi==0.14.1
-Jinja2==2.10
+Jinja2==2.10.1
 json5==0.8.5
 jsonschema==3.0.1
 jupyter-client==5.3.1
@@ -103,11 +103,11 @@ python-debian==0.1.32
 python-xapp==1.2.0
 python-xlib==0.20
 pytz==2018.3
-pyxdg==0.25
-PyYAML==3.12
+pyxdg==0.26
+PyYAML==4.2b1
 pyzmq==18.0.2
 reportlab==3.4.0
-requests==2.18.4
+requests==2.22.0
 requests-unixsocket==0.1.5
 rfc3986==1.2.0
 screen-resolution-extra==0.0.0
@@ -127,7 +127,7 @@ tornado==6.0.3
 traitlets==4.3.2
 ubuntu-drivers-common==0.0.0
 ufw==0.35
-urllib3==1.22
+urllib3==1.25.3
 virtualenv==16.6.2
 wcwidth==0.1.7
 webencodings==0.5.1
