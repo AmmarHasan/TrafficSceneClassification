@@ -1,17 +1,17 @@
 ﻿namespace Assets.Scripts.Configuration
 {
     /// <summary>
-    /// Der Typ eines Streckenabschnitts.
+    /// The type of track section.
     /// </summary>
     public enum RoadPartType
     {
         /// <summary>
-        /// Wert für eine Gerade.
+        /// Value for a straight line.
         /// </summary>
         Straight,
 
         /// <summary>
-        /// Wert für eine Kurve.
+        /// Value for a curve.
         /// </summary>
         Curve
     }

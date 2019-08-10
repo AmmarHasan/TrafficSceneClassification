@@ -53,20 +53,20 @@ public class EasyRoadsGenerator : MonoBehaviour
                 this.PlaceCameraCar();
             }
 
-            // Wenn das Auto nicht selber fährt, dann das Fahren simulieren
+            // If the car does not drive itself, then simulate driving
             if (this.isSelfDriving)
             {
                 SimulateCar();
             }
 
-            // Den ScreenRecorder aktivieren
+            // Activate the ScreenRecorder
             ScreenRecorder screenRecorder = Camera.main.GetComponent<ScreenRecorder>();
             screenRecorder.isGenerated = true;
             screenRecorder.updateCounter++;
 
             if (screenRecorder.updateCounter % screenRecorder.takePictureEveryXFrame == 0 && screenRecorder.capture)
             {
-                // Über alle Autos iterieren und die Koordinaten der sichtbaren speichern.
+                // Iterate over all cars and save the coordinates of the visible ones.
                 //string textToAppend = "Picture " + screenRecorder.counter + ":";
                 string textToAppend = string.Empty;
                 List<Tuple<GameObject, int>> visibleCars = new List<Tuple<GameObject, int>>();
@@ -81,7 +81,7 @@ public class EasyRoadsGenerator : MonoBehaviour
 
                         ProjectOnCamera2D projectOnCamera2D = carOnLane.First.GetComponent<ProjectOnCamera2D>();
 
-                        // Wenn das Auto auf dem Screen sichtbar ist, die Koordinaten speichern.
+                        // If the car is visible on the screen, save the coordinates.
                         if (projectOnCamera2D.IsVisible)
                         {
                             visibleCars.Add(carOnLane);
@@ -140,7 +140,7 @@ public class EasyRoadsGenerator : MonoBehaviour
             switch (this.numberOfTracks)
             {
                 case 8:
-                    // Falls acht Spuren benötigt werden (roadWidth wurde angepasst)
+                    // If eight tracks are needed (roadWidth has been adjusted)
                     roadType.roadMaterial = Resources.Load<Material>("Road8Lanes");
                     roadType.roadWidth = 30;
                     roadType.Update();
@@ -164,7 +164,7 @@ public class EasyRoadsGenerator : MonoBehaviour
                     roadType.Update();
                     break;
                 case 2:
-                    // Falls zwei Spuren benötigt werden (roadMaterial stimmt schon)
+                    // If two tracks are needed (roadWidth has been adjusted)
                     roadType.roadWidth = 6;
                     roadType.Update();
                     break;
@@ -182,34 +182,34 @@ public class EasyRoadsGenerator : MonoBehaviour
 
     #region CreateCurve
     /// <summary>
-    /// Erstellt eine Kurve anhand eines Winkels, der Länge der Kurve und den Positionen des aktuellen und vorherigen Straßen Elementes.
+    /// Creates a curve based on an angle, the length of the curve, and the positions of the current and previous road elements.
     /// </summary>
-    /// <param name="angle">Der Winkel.</param>
-    /// <param name="length">Die Länge des Straßenelementes.</param>
-    /// <param name="heightDifference">Die Höhendifferenz für den Streckenabschnitt.</param>
+    /// <param name="angle">The angle.</param>
+    /// <param name="length">The length of the road element.</param>
+    /// <param name="heightDifference">The height difference for the section of the route.</param>
     /// <param name="minCars">Die minimale Anzahl an Autos auf diesem Streckenabschnitt.</param>
     /// <param name="maxCars">Die maximale Anzahl an Autos auf diesem Streckenabschnitt.</param>
     /// <param name="seed">Der Seed des Random-Generators.</param>
     /// <returns>Die Kurve.</returns>
     public ERRoad CreateCurve(float angle, float length, float? heightDifference, int minCars, int maxCars, string seed)
     {
-        // Die Strecke neu holen
+        // Get the track new
         this.network = new ERRoadNetwork();
         this.network.BuildRoadNetwork();
 
-        // hole die Höhendifference
+        // get the height difference
         float fixHeightDifference = heightDifference ?? 0f;
 
-        // Die StartPosition initialisieren.
+        // Initialize the start position.
         Vector3 startPosition = new Vector3(0, 0, 0);
 
-        // Die Ausrichtung initialisieren (default ist z-Richtung).
+        // Initialize the alignment (default is z-direction).
         Vector3 heading = new Vector3(0, 0, 1);
 
-        // Den RoadType holen
+        // Get the RoadType
         ERRoadType roadType = this.GetRandomRoadType();
 
-        // Hole die Position des letzten Streckenabschnitts, wenn vorhanden.
+        // Get the position of the last leg, if any.
         ERRoad lastRoad = null;
         if (network.GetRoads().Length > 0)
         {
@@ -217,59 +217,59 @@ public class EasyRoadsGenerator : MonoBehaviour
             Vector3[] markers = lastRoad.GetMarkerPositions();
             Vector3 lastPosition = markers.Last();
 
-            // Die Startposition an den letzten Streckenabschnitt anpassen.
+            // Adjust the starting position to the last section of track.
             startPosition = lastPosition;
 
-            // Die Ausrichtung in Bezug auf den vorherigen Streckenabschnitt holen.
+            // Get the alignment with respect to the previous stretch.
             Vector3 secondToLast = markers[markers.Count() - 2];
             heading = lastPosition - secondToLast;
             heading.y = 0;
         }
 
-        // Den (geraden) Richtungsvektor berechnen.
+        // Compute the (even) direction vector.
         Vector3 direction = heading / heading.magnitude;
 
-        // Der Vektor der y-Achse
+        // The vector of the y-axis
         Vector3 yAxis = new Vector3(0, 1, 0);
 
-        // Die Anzahl an zu berechnenden Positionen für die Kurve
+        // The number of positions to calculate for the curve
         int numbPositions = Convert.ToInt32(Math.Abs(angle));
         float positionPercentage = numbPositions * percentageEven;
 
-        // Das Array mit den neuen Positionen.
+        // The array with the new positions.
         Vector3[] curvePositions = new Vector3[numbPositions];
         curvePositions[0] = startPosition;
 
-        // es werden in 1-Grad-Schritten Positionen berechnet.
+        // positions are calculated in 1-degree increments.
         float anglePart = angle / Math.Abs(angle);
         float lengthPart = length / numbPositions;
         float heightPart = fixHeightDifference / (numbPositions - (2 * positionPercentage));
 
-        // Die Positionen berechnen.
+        // calculate the positions.
         for (int i = 1; i < numbPositions; i++)
         {
-            // Die direction für den nächsten Schritt berechnen
+            // calculate the direction for the next step
             if (i > 1)
             {
                 heading = curvePositions[i - 1] - curvePositions[i - 2];
                 heading.y = 0;
                 direction = heading / heading.magnitude;
-            }           
+            }
 
-            // Die letzte Position holen.
+            // Get the last position.
             Vector3 oldPosition = curvePositions[i - 1];
 
-            // innerhalb des Prozent-Bereiches die Höhe anwenden.
+            // within the percent range, apply the height.
             if (i > positionPercentage && i < (numbPositions - positionPercentage))
             {
                 oldPosition.y += heightPart.Truncate(5);
             }
-            
-            // Die neue Position berechnen.
+
+            // Calculate the new position.
             curvePositions[i] = oldPosition + Quaternion.AngleAxis(anglePart, yAxis) * direction * lengthPart;
         }
 
-        // Die Kurve erzeugen.
+        // Create the curve.
         ERRoad thisRoad = this.network.CreateRoad("Curve" + network.GetRoads().Count(), roadType, curvePositions);
         customEasyRoads.Add(new CustomEasyRoad(car, thisRoad, minCars, maxCars, numberOfTracks));
         return thisRoad;
@@ -278,7 +278,7 @@ public class EasyRoadsGenerator : MonoBehaviour
 
     #region CreateStraight
     /// <summary>
-    /// Methode zum Zeichnen einer geraden Straße.
+    /// Method for drawing a straight road.
     /// </summary>
     /// <param name="length">Die Länge der Straße.</param>
     /// <param name="minCars">Die minimale Anzahl der Autos auf dem Straßenteil.</param>
@@ -355,7 +355,7 @@ public class EasyRoadsGenerator : MonoBehaviour
     /// </summary>
     public void SimulateCar()
     {
-        // Die Collider des Autos holen
+        // Bring the colliders of the car
         Collider[] colliders = Physics.OverlapBox(cameraCar.gameObject.transform.position, (cameraCar.gameObject.transform.localScale / 5f), cameraCar.gameObject.transform.rotation);
         ERRoad road = null;
         foreach (Collider collider in colliders)
@@ -369,7 +369,7 @@ public class EasyRoadsGenerator : MonoBehaviour
         Vector3 heading = new Vector3(0, 0, 1);
         if (road != null)
         {
-            // Hole den letzten Punkt der Strecke
+            // Get the last point of the track
             Vector3[] markers = road.GetMarkerPositions();
             Vector3 lastMarker = markers.Last();
 
@@ -391,7 +391,7 @@ public class EasyRoadsGenerator : MonoBehaviour
             //heading.y = 0;
         }
 
-        // Geschwindigkeit setzen
+        // Set speed
         Rigidbody rigidbody = cameraCar.GetComponent<Rigidbody>();
         cameraCar.transform.Translate(Vector3.forward * (carSpeed / 3.6f) * Time.deltaTime);
         //cameraCar.transform.rotation.SetLookRotation(heading);
@@ -401,18 +401,18 @@ public class EasyRoadsGenerator : MonoBehaviour
 
     #region PlaceCameraCar
     /// <summary>
-    /// Methode zum Platzieren des Autos am Anfang.
+    /// Method of placing the car in the beginning.
     /// </summary>
     private void PlaceCameraCar()
     {
-        // Das Auto auf die rechte erste Spur platzieren
+        // Place the car on the right first lane
         ERRoad firstRoad = network.GetRoads().First();
         Vector3 firstSplineRightSide = firstRoad.GetSplinePointsRightSide()[0];
         Vector3 firstMarker = firstRoad.GetMarkerPosition(0);
         Vector3 rightMiddleLane = Vector3.zero;
 
-        // Das Position je nach Anzahl der Spuren interpolieren
-        switch(this.numberOfTracks)
+        // Interpolate the position according to the number of tracks
+        switch (this.numberOfTracks)
         {
             case 8:
                 rightMiddleLane = Vector3.Slerp(firstMarker, firstSplineRightSide, 0.85f);
@@ -435,7 +435,7 @@ public class EasyRoadsGenerator : MonoBehaviour
                 break;
         }
 
-        // Das Auto an die richtige Positions etzen
+        // Put the car in the right position
         cameraCar.gameObject.transform.position = rightMiddleLane;
         cameraCar.gameObject.transform.rotation = Quaternion.identity;
 
@@ -446,7 +446,7 @@ public class EasyRoadsGenerator : MonoBehaviour
 
     #region GetRandomRoadType
     /// <summary>
-    /// Liefert einen zufälligen RoadType des aktuellen Netzwerkes zurück.
+    /// Returns a random RoadType of the current network.
     /// </summary>
     /// <returns>Der zufällige RoadType</returns>
     ERRoadType GetRandomRoadType()
@@ -463,7 +463,7 @@ public class EasyRoadsGenerator : MonoBehaviour
     /// </summary>
     private void DestroyColliderCars()
     {
-        // Die Collider des Autos holen
+        // Bring the colliders of the car
         Collider[] colliders = Physics.OverlapBox(cameraCar.gameObject.transform.position, (cameraCar.gameObject.transform.localScale / 2.5f), cameraCar.gameObject.transform.rotation);
         List<Collider> carColliders = new List<Collider>();
         foreach (Collider collider in colliders)
@@ -474,7 +474,7 @@ public class EasyRoadsGenerator : MonoBehaviour
             }
         }
 
-        // Die Autos im Weg entfernen
+        // Remove the cars in the way
         foreach (Collider collider in carColliders)
         {
             Destroy(collider.gameObject);

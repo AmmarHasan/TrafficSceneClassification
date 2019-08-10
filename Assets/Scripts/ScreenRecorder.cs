@@ -234,7 +234,7 @@ public class ScreenRecorder : MonoBehaviour
             f.Close();
             Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filepath, fileData.Length));
 
-            // Die Coordinaten in die Datei schreiben.
+            // Write the coordinates to the file.
             using (StreamWriter writer = File.AppendText(filePath))
             {
                 writer.WriteLine(filename + "\n" +carCoordLine);

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class CustomEasyRoad
 {
     /// <summary>
-    /// Alle Autos auf der Strecke.
+    /// All cars on the track.
     /// </summary>
     public List<Tuple<GameObject, int>> CarsOnLanes  { get; private set; }
 
@@ -23,18 +23,18 @@ public class CustomEasyRoad
     public ERRoad Road { get; private set; }
 
     /// <summary>
-    /// Die Autos pro Spur.
+    /// The cars per track.
     /// </summary>
-    public Dictionary<int, List<GameObject>> CarsPerLane { get; private set; } 
+    public Dictionary<int, List<GameObject>> CarsPerLane { get; private set; }
 
     /// <summary>
-    /// Methode zum Erstellen einer CustomEasyRoad.
+    /// Method for creating a CustomEasyRoad.
     /// </summary>
-    /// <param name="car">Das Gameobject des Autos.</param>
-    /// <param name="road">Die Straße.</param>
-    /// <param name="minCars">Die Mindestanzahl von Autos auf dem Streckenpart.</param>
-    /// <param name="maxCars">Die Maximalanzahl von Autos auf dem Streckenpart.</param>
-    /// <param name="numberOfTracks">Die Anzahl der Spuren.</param>
+    /// <param name="car">The Gameobject of the Autos.</param>
+    /// <param name="road">The street.</param>
+    /// <param name="minCars">The minimum number of cars on the track.</param>
+    /// <param name="maxCars">The maximum number of cars on the track.</param>
+    /// <param name="numberOfTracks">The number of tracks.</param>
     public CustomEasyRoad(GameObject car, ERRoad road, int minCars, int maxCars, int numberOfTracks)
     {
         road.SetTag("Street");
@@ -61,12 +61,12 @@ public class CustomEasyRoad
 
             for (int i = 0; i < markers.Length; i+= increment)
             {
-                // Die Spur bestimmen
+                // Determine the track
                 int lane = Random.Range(0, numberOfTracks);
                 Vector3[] directionMarkers = null;
 
-                // Die Richtung des Autos/Lane holen und setzen
-                if(numberOfTracks==3) {
+                // Bring and set the direction of the car / lane
+                if (numberOfTracks==3) {
                     if (lane <= 1)
                     {
                         directionMarkers = markersL;
@@ -90,13 +90,13 @@ public class CustomEasyRoad
                     }
                 }
 
-                // Den RoadSlerp holen
+                // Get the RoadSlerp
                 float roadSlerp = RoadUtils.GetRoadSlerpByLane(numberOfTracks, lane);
 
-                // Das Car mit der Richtung und der Spur spawnen
+                // Spawn the car with the direction and the trail
                 newCar = GameObject.Instantiate(car, Vector3.Slerp(markers[i], directionMarkers[i], roadSlerp) + new Vector3(0, 1, 0), Quaternion.LookRotation(look));
 
-                // Das Auto den Listen hinzufügen
+                // Add the car to the lists
                 this.AddToIndexOnLane(lane, newCar);
                 CarsOnLanes.Add(new Tuple<GameObject, int>(newCar, numberOfTracks - lane - 1));
             }
@@ -108,7 +108,7 @@ public class CustomEasyRoad
     {
         Vector3[] markers = Road.GetMarkerPositions();
 
-        // TODO: Marker zwischen der Position zurückgeben
+        // TODO: Return markers between positions
         for (int i = 0; i < markers.Length - 1; i++)
         {
             Vector3 currentMarker = markers[i];
@@ -126,19 +126,19 @@ public class CustomEasyRoad
 
     #region AddToIndexOnLane
     /// <summary>
-    /// Methode zum Hinzufügen eines Autos zum Dictionary auf einer bestimmten Strecke.
+    /// Method for adding a car to the dictionary on a specific route.
     /// </summary>
     /// <param name="i">Der Index der Lane.</param>
     /// <param name="car">Das Auto.</param>
     private void AddToIndexOnLane(int i, GameObject car)
     {
-        // Die Liste der Spur holen
+        // Get the list of the track
         List<GameObject> carsOnLane = CarsPerLane[i];
 
-        // Das Auto hinzufügen
+        // Add the car
         carsOnLane.Add(car);
 
-        // Die Autos der Spur neu setzen
+        // Reset the cars of the track
         CarsPerLane[i] = carsOnLane;
     }
     #endregion

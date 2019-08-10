@@ -22,7 +22,7 @@
                 Debug.Log("Config loaded: " + json);
                 this.Config = JsonUtility.FromJson<RoadConfig>(json);
 
-                // Die Anzahl der Lanes setzen
+                // Set the number of lanes
                 generator.numberOfTracks = this.Config.NumberOfTracks;
                 generator.SetUpRoadType();
 

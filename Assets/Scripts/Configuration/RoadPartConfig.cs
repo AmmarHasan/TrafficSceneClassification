@@ -3,43 +3,43 @@
     using System;
 
     /// <summary>
-    /// Klasse repräsentiert einen Teil einer Strecke.
+    /// Class represents a part of a route.
     /// </summary>
     [Serializable]
     public class RoadPartConfig
     {
         /// <summary>
-        /// Die Länge des Streckenteils.
+        /// The length of the track part.
         /// </summary>
         public float Length;
 
         /// <summary>
-        /// Der Typ der Strecke (0 = Gerade, 1 = Kurve);
+        /// The type of track (0 = straight line, 1 = curve);
         /// </summary>
         public RoadPartType Type;
 
         /// <summary>
-        /// Die minimale Anzahl der Autos auf diesem Streckenteil.
+        /// The minimum number of cars on this section of the route.
         /// </summary>
         public int MinCars;
 
         /// <summary>
-        /// Die maximale Anzahl der Autos auf diesem Streckenteil.
+        /// The maximum number of cars on this section of the route.
         /// </summary>
         public int MaxCars;
 
         /// <summary>
-        /// Der optionale Höhenunterschied zwischen Anfang und Ende.
+        /// The optional height difference between start and end.
         /// </summary>
         public float HeightDifference;
 
         /// <summary>
-        /// Der optionale Winkel, falls eine Kurve vorliegt.
+        /// The optional angle if there is a curve.
         /// </summary>
         public int Angle;
 
         /// <summary>
-        /// Der optionale Seed, falls die gleiche Strecke wieder geneiert werden soll.
+        /// The optional seed, if the same route should be used again.
         /// </summary>
         public string Seed;
     }

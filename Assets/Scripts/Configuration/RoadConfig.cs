@@ -4,33 +4,33 @@
     using System;
 
     /// <summary>
-    /// Klasse repräsentiert die Konfiguration einer Strecke.
+    /// Class represents the configuration of a route.
     /// </summary>
     [Serializable]
     public class RoadConfig
     {
         /// <summary>
-        /// Die Anzahl der Spuren auf der Straße (Momentane Optionen: 2, 4, 6, 8).
+        /// The number of lanes on the road (Current options: 2, 4, 6, 8).
         /// </summary>
         public int NumberOfTracks;
 
         /// <summary>
-        /// Die Geschwindigkeit des Autos in Km/h.
+        /// The speed of the car in Km / h.
         /// </summary>
         public int CarSpeed;
 
         /// <summary>
-        /// Ob, der Nutzer das Auto selber steuern möchte.
+        /// Whether the user wants to control the car himself.
         /// </summary>
         public bool IsSelfDriving;
 
         /// <summary>
-        /// Der optionale Seed, falls die gleiche Strecke wieder generiert werden soll.
+        /// The optional seed, if the same route should be generated again.
         /// </summary>
         public string Seed;
 
         /// <summary>
-        /// Die Streckenabschnitte.
+        /// The sections of the route.
         /// </summary>
         public List<RoadPartConfig> RoadItems;
     }

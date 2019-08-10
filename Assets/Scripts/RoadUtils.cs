@@ -1,30 +1,31 @@
 ﻿/// <summary>
-/// Klasse für Hilfsfunktionen.
+/// Class for auxiliary functions.
 /// </summary>
 public static class RoadUtils
 {
     /// <summary>
-    /// Holt den Slerp zu einer Lane anhand der Anzahl der Spuren vom mittleren bis zum äußeren Punkt.
+    /// Bring the slerp to a lane based on the number of tracks from the middle to the outer point.
     /// </summary>
-    /// <param name="numberOfTracks">Die Anzahl der Spuren.</param>
-    /// <param name="lane">Die aktuelle Spur von links (0 - 7).</param>
-    /// <returns>Den Slerp.</returns>
+    /// <param name="numberOfTracks">The number of tracks.</param>
+    /// <param name="lane">The current track from the left(0 - 7).</param>
+    /// <returns>The Slerp.</returns>
     public static float GetRoadSlerpByLane(int numberOfTracks, int lane)
     {
-        // Je nach Anzahl der Spuren, die den Slerp zwischen Mitte, außen(linke ode rechte Marker) und richtiger Spur setzen
+        // Depending on the number of tracks that set the slerp between center, 
+        // outside (left or right markers) and correct track
         switch (numberOfTracks)
         {
             case 4:
-                // Entweder außen(0.75) oder innen (0.25)
+                // Either outside (0.75) or inside (0.25)
                 if (lane == 0 || lane == 3) return 0.75f;
                 return 0.25f;
             case 6:
-                // Entweder außen, mitte oder innen
+                // Either outside, middle or inside
                 if (lane == 0 || lane == 5) return 0.825f;
                 if (lane == 1 || lane == 4) return 0.5f;
                 return 0.175f;
             case 8:
-                // Entweder außen, linke mitte, rechte mitte, oder innen
+                // Either outside, left middle, right center, or inside
                 if (lane == 0 || lane == 5) return 0.85f;
                 if (lane == 1 || lane == 4) return 0.6f;
                 if (lane == 2 || lane == 3) return 0.4f;
@@ -35,7 +36,7 @@ public static class RoadUtils
             case 2:
                 return 0.5f;
             default:
-                // Hat nur eine Spur
+                // Has only one track
                 return 0.1f;
         }
     }
