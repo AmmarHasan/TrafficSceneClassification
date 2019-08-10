@@ -75,13 +75,19 @@ public class ScreenRecorder : MonoBehaviour
     {
 
         // use width, height, and counter for unique file name
-        var filename = string.Format("{0}/screen_{1}x{2}_{3}.{4}", captureFolder, width, height, counter.ToString("00000"), format.ToString().ToLower());
+        var filename = string.Format("screen_{0}x{1}_{2}.{3}", width, height, counter.ToString("00000"), format.ToString().ToLower());
 
         // up counter for next call
         ++counter;
 
         // return unique filename
         return filename;
+    }
+
+    private string getCaptureFolder(string filename)
+    {
+        var filepath = string.Format("{0}/{1}", captureFolder, filename);
+        return filepath;
     }
 
     private void InitializeCaptureFolder()
@@ -193,6 +199,7 @@ public class ScreenRecorder : MonoBehaviour
 
         // get our unique filename
         string filename = uniqueFilename(width, height);
+        string filepath = getCaptureFolder(filename);
 
         // pull in our file header/data bytes for the specified image format (has to be done from main thread)
         byte[] fileHeader = null;
@@ -221,16 +228,16 @@ public class ScreenRecorder : MonoBehaviour
         new System.Threading.Thread(() =>
         {
             // create file and write optional header with image bytes
-            var f = System.IO.File.Create(filename);
+            var f = System.IO.File.Create(filepath);
             if (fileHeader != null) f.Write(fileHeader, 0, fileHeader.Length);
             f.Write(fileData, 0, fileData.Length);
             f.Close();
-            Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
+            Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filepath, fileData.Length));
 
             // Die Coordinaten in die Datei schreiben.
             using (StreamWriter writer = File.AppendText(filePath))
             {
-                writer.WriteLine(carCoordLine);
+                writer.WriteLine(filename + "\n" +carCoordLine);
                 writer.Close();
             }
         }).Start();

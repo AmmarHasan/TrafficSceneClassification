@@ -196,6 +196,11 @@ public class ProjectOnCamera2D : MonoBehaviour
         }
     }
 
+    public Rect getCarPositionInFrame()
+    {
+        return r;
+    }
+
     public List<Tuple<double, double>> getRelativeBoxCoords()
     {
         List<Tuple<double, double>> l = new List<Tuple<double, double>>();
