@@ -100,7 +100,7 @@ public class ProjectOnCamera2D : MonoBehaviour
         //Is in front
         if (pointOnScreen.z < 0)
         {
-            Debug.Log("Behind: " + toCheck.name);
+            //Debug.Log("Behind: " + toCheck.name);
             return false;
         }
 
@@ -108,7 +108,7 @@ public class ProjectOnCamera2D : MonoBehaviour
         if ((pointOnScreen.x < 0) || (pointOnScreen.x > Screen.width) ||
                 (pointOnScreen.y < 0) || (pointOnScreen.y > Screen.height))
         {
-            Debug.Log("OutOfBounds: " + toCheck.name);
+            //Debug.Log("OutOfBounds: " + toCheck.name);
             return false;
         }
 
@@ -121,8 +121,8 @@ public class ProjectOnCamera2D : MonoBehaviour
             if (hit.transform.name != toCheck.name)
             {
 
-                Debug.DrawLine(cam.transform.position, toCheck.GetComponentInChildren<Renderer>().bounds.center, Color.red);
-                Debug.LogError(toCheck.name + " occluded by " + hit.transform.name);
+                //Debug.DrawLine(cam.transform.position, toCheck.GetComponentInChildren<Renderer>().bounds.center, Color.red);
+                //Debug.LogError(toCheck.name + " occluded by " + hit.transform.name);
 
                 return false;
             }

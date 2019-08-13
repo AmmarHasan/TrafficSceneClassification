@@ -67,8 +67,7 @@ public class ScreenRecorder : MonoBehaviour
     public GameObject[] ObjectsToHide;
     public bool TakePicturesOnlyWithCars;
 
-
-
+    private ImageSynthesis imageSynthesis;
 
     // create a unique filename using a one-up variable
     private string uniqueFilename(int width, int height)
@@ -139,6 +138,7 @@ public class ScreenRecorder : MonoBehaviour
         if (capture)
         {
             InitializeCaptureFolder();
+            imageSynthesis = GameObject.FindWithTag("ObjectSegmentCamera").GetComponent<ImageSynthesis>();
         }
     }
 
@@ -200,6 +200,10 @@ public class ScreenRecorder : MonoBehaviour
         // get our unique filename
         string filename = uniqueFilename(width, height);
         string filepath = getCaptureFolder(filename);
+
+
+        Vector2 gameViewSize = UnityEditor.Handles.GetMainGameViewSize();
+        imageSynthesis.Save(uniqueFilename(width, height), (int)gameViewSize.x, (int)gameViewSize.y, "Capture");
 
         // pull in our file header/data bytes for the specified image format (has to be done from main thread)
         byte[] fileHeader = null;

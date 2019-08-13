@@ -136,7 +136,7 @@ public class EasyRoadsGenerator : MonoBehaviour
 
         foreach (ERRoadType roadType in this.network.GetRoadTypes())
         {
-
+            roadType.layer = 10;
             switch (this.numberOfTracks)
             {
                 case 8:

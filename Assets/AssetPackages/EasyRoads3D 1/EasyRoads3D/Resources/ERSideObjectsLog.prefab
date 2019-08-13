@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1867525078766592}
+  m_RootGameObject: {fileID: 1076862251871844}
   m_IsPrefabAsset: 1
---- !u!1 &1867525078766592
+--- !u!1 &1076862251871844
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4598923715457550}
-  - component: {fileID: 114248484940394280}
-  m_Layer: 0
+  - component: {fileID: 4070388446801818}
+  - component: {fileID: 114541100984558368}
+  m_Layer: 11
   m_Name: ERSideObjectsLog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4598923715457550
+--- !u!4 &4070388446801818
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1867525078766592}
+  m_GameObject: {fileID: 1076862251871844}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,12 +40,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114248484940394280
+--- !u!114 &114541100984558368
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1867525078766592}
+  m_GameObject: {fileID: 1076862251871844}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 353395545, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
@@ -55,7 +55,7 @@ MonoBehaviour:
   - version: 2.0.0
     name: PoplarTreesLeft
     id: 1547676565.4635315
-    timestamp: 1553355070.974151
+    timestamp: 1565669009.983077
     objectType: 0
     gameobjectGUID: 
     textureGUID: 
@@ -84,7 +84,7 @@ MonoBehaviour:
     align: 1
     alignPoint: 0
     weld: 1
-    combine: 1
+    combine: 0
     combineInstantiated: 1
     markerActive: 1
     uvType: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
     defaultStartOffset: 0
     defaultEndOffset: 0
     totalZDistance: 0
-    middleZDistance: 0
+    middleZDistance: 10
     startZDistance: 0
     endZDistance: 0
     minStartZ: 10000
@@ -151,7 +151,7 @@ MonoBehaviour:
     targetObject: {fileID: 0}
     bridgeObject: 0
     snapToTerrain: 0
-    layer: 0
+    layer: 11
     deformationObject: 0
     isStatic: 0
     castShadows: 1
@@ -452,7 +452,7 @@ MonoBehaviour:
   - version: 2.0.0
     name: YellowHousesRight
     id: 1547731177.6558611
-    timestamp: 1553352432.2785108
+    timestamp: 1565669048.136946
     objectType: 0
     gameobjectGUID: 
     textureGUID: 
@@ -478,7 +478,7 @@ MonoBehaviour:
     colorList: []
     gameobjectStartGUID: 
     gameobjectEndGUID: 
-    align: 1
+    align: 0
     alignPoint: 0
     weld: 1
     combine: 1
@@ -534,7 +534,7 @@ MonoBehaviour:
     defaultStartOffset: 0
     defaultEndOffset: 0
     totalZDistance: 0
-    middleZDistance: 0
+    middleZDistance: 10
     startZDistance: 0
     endZDistance: 0
     minStartZ: 10000
@@ -549,7 +549,7 @@ MonoBehaviour:
     targetObject: {fileID: 0}
     bridgeObject: 0
     snapToTerrain: 0
-    layer: 0
+    layer: 12
     deformationObject: 0
     isStatic: 0
     castShadows: 1
@@ -586,8 +586,8 @@ MonoBehaviour:
   roadPresets:
   - roadTypeName: Trees
     id: 0
-    timestamp: 1553428905.7267985
-    roadWidth: 6
+    timestamp: 1565669663.95736
+    roadWidth: 9
     faceDistance: 4
     angleTreshold: 45
     uvTiling: 1
@@ -628,9 +628,9 @@ MonoBehaviour:
     sidewalks: 0
     sidewalkHeight: 0.2
     sidewalkWidth: 2
-    roadMaterial: {fileID: 2100000, guid: f182e2714eb8a714a99ed091081ce16c, type: 2}
+    roadMaterial: {fileID: 2100000, guid: 2b661b03606cc45f1a516df3252a5666, type: 2}
     roadMaterials:
-    - {fileID: 2100000, guid: f182e2714eb8a714a99ed091081ce16c, type: 2}
+    - {fileID: 2100000, guid: 2b661b03606cc45f1a516df3252a5666, type: 2}
     roadPhysicsMaterial: {fileID: 0}
     roadPhysicsMaterials: []
     connectionMaterial: {fileID: 2100000, guid: 3c555588afad81d428ad1704d5d015a7,
@@ -649,7 +649,7 @@ MonoBehaviour:
       active: 0
     - id: 1547731177.6558611
       active: 1
-    layer: 0
+    layer: 10
     tag: 
     splatMapActive: 0
     splatIndex: 0

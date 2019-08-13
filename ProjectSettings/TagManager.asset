@@ -7,6 +7,8 @@ TagManager:
   - Street
   - Car
   - ObjectToHide
+  - ObjectSegmentCamera
+  - Tree
   layers:
   - Default
   - TransparentFX
@@ -17,12 +19,12 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Car
+  - Road
+  - Tree
+  - House
+  - Grass
+  - MyCar
   - 
   - 
   - 
