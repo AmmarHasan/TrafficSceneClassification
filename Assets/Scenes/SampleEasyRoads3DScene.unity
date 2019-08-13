@@ -127,7 +127,7 @@ MonoBehaviour:
   version: 2.0.0
   name: YellowHousesRight
   id: 1547731177.6558611
-  timestamp: 1553352432.2785108
+  timestamp: 1565671036.472677
   objectType: 0
   gameobjectGUID: 
   textureGUID: 
@@ -153,7 +153,7 @@ MonoBehaviour:
   colorList: []
   gameobjectStartGUID: 
   gameobjectEndGUID: 
-  align: 1
+  align: 0
   alignPoint: 0
   weld: 1
   combine: 1
@@ -209,7 +209,7 @@ MonoBehaviour:
   defaultStartOffset: 0
   defaultEndOffset: 0
   totalZDistance: 0
-  middleZDistance: 0
+  middleZDistance: 10
   startZDistance: 0
   endZDistance: 0
   minStartZ: 10000
@@ -224,7 +224,7 @@ MonoBehaviour:
   targetObject: {fileID: 0}
   bridgeObject: 0
   snapToTerrain: 0
-  layer: 0
+  layer: 12
   deformationObject: 0
   isStatic: 0
   castShadows: 1
@@ -321,49 +321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a710463c4992247b89a21702500003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &163303636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1195050255, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sideObject: {fileID: 631669183}
-  id: 1547676565.4635315
-  active: 1
-  vecPositions: []
-  toggleActive: 0
-  xPosition: 0
-  yPosition: 0
-  randomRotation: {x: 0, y: 0, z: 0}
-  randomMinRotation: 0
-  randomMaxRotation: 0
-  minRandomRotationDistance: 0
-  maxRandomRotationDistance: 0
-  xPosChange: 0
-  yPosChange: 0
-  rotationAngleChange: 0
-  rotationDistanceChange: 0
-  lockRandomRotations: 0
-  randomXPositionChange: 0
-  randomYPositionChange: 0
-  xPositionDistanceChange: 0
-  randomXPosition: 0
-  randomMinXPosition: 0
-  randomMaxXPosition: 0
-  minRandomXPositionDistance: 0
-  maxRandomXPositionDistance: 0
-  boxColliderScale: {x: 1, y: 1, z: 1}
-  yPositionDistanceChange: 0
-  randomYPosition: 0
-  randomMinYPosition: 0
-  randomMaxYPosition: 0
-  minRandomYPositionDistance: 0
-  maxRandomYPositionDistance: 0
 --- !u!1 &193980813
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +383,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &500899668
+--- !u!114 &353990589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,9 +394,9 @@ MonoBehaviour:
   m_Script: {fileID: 1195050255, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sideObject: {fileID: 1300868623}
-  id: 1547676596.2387705
-  active: 0
+  sideObject: {fileID: 631669183}
+  id: 1547676565.4635315
+  active: 1
   vecPositions: []
   toggleActive: 0
   xPosition: 0
@@ -488,7 +445,7 @@ MonoBehaviour:
   version: 2.0.0
   name: PoplarTreesLeft
   id: 1547676565.4635315
-  timestamp: 1553355070.974151
+  timestamp: 1565669009.983077
   objectType: 0
   gameobjectGUID: 
   textureGUID: 
@@ -517,7 +474,7 @@ MonoBehaviour:
   align: 1
   alignPoint: 0
   weld: 1
-  combine: 1
+  combine: 0
   combineInstantiated: 1
   markerActive: 1
   uvType: 0
@@ -569,7 +526,7 @@ MonoBehaviour:
   defaultStartOffset: 0
   defaultEndOffset: 0
   totalZDistance: 0
-  middleZDistance: 0
+  middleZDistance: 10
   startZDistance: 0
   endZDistance: 0
   minStartZ: 10000
@@ -584,7 +541,7 @@ MonoBehaviour:
   targetObject: {fileID: 0}
   bridgeObject: 0
   snapToTerrain: 0
-  layer: 0
+  layer: 11
   deformationObject: 0
   isStatic: 0
   castShadows: 1
@@ -638,6 +595,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overlay: {fileID: 0}
+--- !u!114 &700847926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1195050255, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideObject: {fileID: 1300868623}
+  id: 1547676596.2387705
+  active: 0
+  vecPositions: []
+  toggleActive: 0
+  xPosition: 0
+  yPosition: 0
+  randomRotation: {x: 0, y: 0, z: 0}
+  randomMinRotation: 0
+  randomMaxRotation: 0
+  minRandomRotationDistance: 0
+  maxRandomRotationDistance: 0
+  xPosChange: 0
+  yPosChange: 0
+  rotationAngleChange: 0
+  rotationDistanceChange: 0
+  lockRandomRotations: 0
+  randomXPositionChange: 0
+  randomYPositionChange: 0
+  xPositionDistanceChange: 0
+  randomXPosition: 0
+  randomMinXPosition: 0
+  randomMaxXPosition: 0
+  minRandomXPositionDistance: 0
+  maxRandomXPositionDistance: 0
+  boxColliderScale: {x: 1, y: 1, z: 1}
+  yPositionDistanceChange: 0
+  randomYPosition: 0
+  randomMinYPosition: 0
+  randomMaxYPosition: 0
+  minRandomYPositionDistance: 0
+  maxRandomYPositionDistance: 0
 --- !u!28 &977047645
 Texture2D:
   m_ObjectHideFlags: 0
@@ -735,9 +735,56 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1813680698200542, guid: 01a8b3ad8d550d140ad4e9633301ce36, type: 2}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01a8b3ad8d550d140ad4e9633301ce36, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &1165705399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1195050255, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideObject: {fileID: 80731505}
+  id: 1547731177.6558611
+  active: 1
+  vecPositions: []
+  toggleActive: 0
+  xPosition: 0
+  yPosition: 0
+  randomRotation: {x: 0, y: 0, z: 0}
+  randomMinRotation: 0
+  randomMaxRotation: 0
+  minRandomRotationDistance: 0
+  maxRandomRotationDistance: 0
+  xPosChange: 0
+  yPosChange: 0
+  rotationAngleChange: 0
+  rotationDistanceChange: 0
+  lockRandomRotations: 0
+  randomXPositionChange: 0
+  randomYPositionChange: 0
+  xPositionDistanceChange: 0
+  randomXPosition: 0
+  randomMinXPosition: 0
+  randomMaxXPosition: 0
+  minRandomXPositionDistance: 0
+  maxRandomXPositionDistance: 0
+  boxColliderScale: {x: 1, y: 1, z: 1}
+  yPositionDistanceChange: 0
+  randomYPosition: 0
+  randomMinYPosition: 0
+  randomMaxYPosition: 0
+  minRandomYPositionDistance: 0
+  maxRandomYPositionDistance: 0
 --- !u!1001 &1283402115
 Prefab:
   m_ObjectHideFlags: 0
@@ -888,7 +935,7 @@ Prefab:
     - target: {fileID: 20955869612138698, guid: a6b49f94a1acb344693c5cd3fa9d38fe,
         type: 2}
       propertyPath: field of view
-      value: 77.8
+      value: 76
       objectReference: {fileID: 0}
     - target: {fileID: 20955869612138698, guid: a6b49f94a1acb344693c5cd3fa9d38fe,
         type: 2}
@@ -898,12 +945,12 @@ Prefab:
     - target: {fileID: 20955869612138698, guid: a6b49f94a1acb344693c5cd3fa9d38fe,
         type: 2}
       propertyPath: m_FocalLength
-      value: 14.871762
+      value: 15.3593
       objectReference: {fileID: 0}
     - target: {fileID: 20955869612138698, guid: a6b49f94a1acb344693c5cd3fa9d38fe,
         type: 2}
       propertyPath: m_HDR
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114781700600442834, guid: a6b49f94a1acb344693c5cd3fa9d38fe,
         type: 2}
@@ -913,11 +960,16 @@ Prefab:
     - target: {fileID: 114781700600442834, guid: a6b49f94a1acb344693c5cd3fa9d38fe,
         type: 2}
       propertyPath: folder
-      value: C:\Users\Moritz\Pictures\unity\rawData
+      value: ScreenCapture
       objectReference: {fileID: 0}
     - target: {fileID: 1700398004007728, guid: a6b49f94a1acb344693c5cd3fa9d38fe, type: 2}
       propertyPath: m_Layer
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 20955869612138698, guid: a6b49f94a1acb344693c5cd3fa9d38fe,
+        type: 2}
+      propertyPath: m_AllowDynamicResolution
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6b49f94a1acb344693c5cd3fa9d38fe, type: 2}
@@ -1152,10 +1204,10 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 67
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1165,7 +1217,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
+  m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -1181,7 +1233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6591d759c4144fe96e379a0d630647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1418246344
+--- !u!114 &1598503224
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1280,49 +1332,6 @@ MonoBehaviour:
   m_Script: {fileID: 1419717442, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1736194440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1195050255, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sideObject: {fileID: 80731505}
-  id: 1547731177.6558611
-  active: 1
-  vecPositions: []
-  toggleActive: 0
-  xPosition: 0
-  yPosition: 0
-  randomRotation: {x: 0, y: 0, z: 0}
-  randomMinRotation: 0
-  randomMaxRotation: 0
-  minRandomRotationDistance: 0
-  maxRandomRotationDistance: 0
-  xPosChange: 0
-  yPosChange: 0
-  rotationAngleChange: 0
-  rotationDistanceChange: 0
-  lockRandomRotations: 0
-  randomXPositionChange: 0
-  randomYPositionChange: 0
-  xPositionDistanceChange: 0
-  randomXPosition: 0
-  randomMinXPosition: 0
-  randomMaxXPosition: 0
-  minRandomXPositionDistance: 0
-  maxRandomXPositionDistance: 0
-  boxColliderScale: {x: 1, y: 1, z: 1}
-  yPositionDistanceChange: 0
-  randomYPosition: 0
-  randomMinYPosition: 0
-  randomMaxYPosition: 0
-  minRandomYPositionDistance: 0
-  maxRandomYPositionDistance: 0
 --- !u!1 &1739656066
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,7 +1642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateInt: 10
   newSplatMapRestoreCode: 0
-  toolbarInt: 1
+  toolbarInt: 5
   roadToolbarInt: 0
   markerToolbarInt: 0
   menuTexs:
@@ -1658,7 +1667,7 @@ MonoBehaviour:
   roadTypes:
   - roadTypeName: Trees
     id: 0
-    timestamp: 1565616651.494362
+    timestamp: 1565669663.95736
     roadWidth: 9
     faceDistance: 4
     angleTreshold: 45
@@ -1712,12 +1721,12 @@ MonoBehaviour:
     subSegments: 1
     soData: []
     soDataExt:
-    - {fileID: 163303636}
-    - {fileID: 500899668}
-    - {fileID: 1418246344}
-    - {fileID: 1736194440}
+    - {fileID: 353990589}
+    - {fileID: 700847926}
+    - {fileID: 1598503224}
+    - {fileID: 1165705399}
     soDataLog: []
-    layer: 0
+    layer: 10
     tag: 
     splatMapActive: 0
     splatIndex: 0

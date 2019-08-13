@@ -83,6 +83,9 @@ ehthumbs.db
 # Jupyter Lab
 .ipynb_checkpoints
 
+ScreenCapture
+ProcessedImage
+
 Data
 ImageCapture
 labels.data

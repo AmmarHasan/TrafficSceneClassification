@@ -25,7 +25,7 @@ public class ImageSynthesis : MonoBehaviour
 
     [Header("Save Image Capture")]
     public bool saveImage = true;
-    public bool saveIdSegmentation = true;
+    public bool saveIdSegmentation = false;
     public bool saveLayerSegmentation = true;
     public bool saveDepth = true;
     public bool saveNormals = true;
@@ -215,7 +215,7 @@ public class ImageSynthesis : MonoBehaviour
             // Perform a check to make sure that the capture pass should be saved
             if (
                 (pass.name == "_img" && saveImage) ||
-                (pass.name == "_id" && saveIdSegmentation) ||
+                //(pass.name == "_id" && saveIdSegmentation) ||
                 (pass.name == "_layer" && saveLayerSegmentation) ||
                 (pass.name == "_depth" && saveDepth) ||
                 (pass.name == "_normals" && saveNormals) ||
@@ -265,7 +265,7 @@ public class ImageSynthesis : MonoBehaviour
         // encode texture into PNG
         var bytes = tex.EncodeToPNG();
         File.WriteAllBytes(filename, bytes);
-
+        Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, bytes.Length));
         // restore state and cleanup
         cam.targetTexture = prevCameraRT;
         RenderTexture.active = prevActiveRT;

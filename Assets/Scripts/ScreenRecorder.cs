@@ -160,23 +160,23 @@ public class ScreenRecorder : MonoBehaviour
         }
 
         // create screenshot objects if needed
-        if (renderTexture == null)
-        {
-            // creates off-screen render texture that can rendered into
-            rect = new Rect(0, 0, width, height);
-            //rect = new Rect(0, 0, preCaptureWidth, preCaptureHeight);
+        //if (renderTexture == null)
+        //{
+        //    // creates off-screen render texture that can rendered into
+        //    rect = new Rect(0, 0, width, height);
+        //    //rect = new Rect(0, 0, preCaptureWidth, preCaptureHeight);
 
-            renderTexture = new RenderTexture(width, height, 24);
-            screenShot = new Texture2D(width, height, TextureFormat.RGB24, false);
-            //renderTexture = new RenderTexture(preCaptureWidth, preCaptureHeight, 24);
-            //screenShot = new Texture2D(preCaptureWidth, preCaptureHeight, TextureFormat.RGB24, false);
-        }
+        //    renderTexture = new RenderTexture(width, height, 24);
+        //    screenShot = new Texture2D(width, height, TextureFormat.RGB24, false);
+        //    //renderTexture = new RenderTexture(preCaptureWidth, preCaptureHeight, 24);
+        //    //screenShot = new Texture2D(preCaptureWidth, preCaptureHeight, TextureFormat.RGB24, false);
+        //}
 
         // get main camera and manually render scene into rt
-        Camera camera = this.GetComponent<Camera>(); // NOTE: added because there was no reference to camera in original script; must add this script to Camera
-        camera.aspect = 16f / 9f;
-        camera.targetTexture = renderTexture;
-        camera.Render();
+        //Camera camera = this.GetComponent<Camera>(); // NOTE: added because there was no reference to camera in original script; must add this script to Camera
+        //camera.aspect = 16f / 9f;
+        //camera.targetTexture = renderTexture;
+        //camera.Render();
 
         //if (grayscale)
         //{
@@ -185,8 +185,8 @@ public class ScreenRecorder : MonoBehaviour
 
         // read pixels will read from the currently active render texture so make our offscreen 
         // render texture active and then read the pixels
-        RenderTexture.active = renderTexture;
-        screenShot.ReadPixels(rect, 0, 0);
+        //RenderTexture.active = renderTexture;
+        //screenShot.ReadPixels(rect, 0, 0);
         //TextureScale.Bilinear(screenShot, captureWidth, captureHeight);
         // if (grayscale)
         // {
@@ -194,57 +194,57 @@ public class ScreenRecorder : MonoBehaviour
         // }
 
         // reset active camera texture and render texture
-        camera.targetTexture = null;
-        RenderTexture.active = null;
+        //camera.targetTexture = null;
+        //RenderTexture.active = null;
 
         // get our unique filename
-        string filename = uniqueFilename(width, height);
-        string filepath = getCaptureFolder(filename);
+        //string filename = uniqueFilename(width, height);
+        //string filepath = getCaptureFolder(filename);
 
 
         Vector2 gameViewSize = UnityEditor.Handles.GetMainGameViewSize();
-        imageSynthesis.Save(uniqueFilename(width, height), (int)gameViewSize.x, (int)gameViewSize.y, "Capture");
+        imageSynthesis.Save(uniqueFilename(width, height), width, height, captureFolder);
 
         // pull in our file header/data bytes for the specified image format (has to be done from main thread)
-        byte[] fileHeader = null;
-        byte[] fileData = null;
-        if (format == Format.RAW)
-        {
-            fileData = screenShot.GetRawTextureData();
-        }
-        else if (format == Format.PNG)
-        {
-            fileData = screenShot.EncodeToPNG();
-        }
-        else if (format == Format.JPG)
-        {
-            fileData = screenShot.EncodeToJPG();
-        }
-        else // ppm
-        {
-            // create a file header for ppm formatted file
-            string headerStr = string.Format("P6\n{0} {1}\n255\n", width, height);
-            fileHeader = System.Text.Encoding.ASCII.GetBytes(headerStr);
-            fileData = screenShot.GetRawTextureData();
-        }
+        //byte[] fileHeader = null;
+        //byte[] fileData = null;
+        //if (format == Format.RAW)
+        //{
+        //    fileData = screenShot.GetRawTextureData();
+        //}
+        //else if (format == Format.PNG)
+        //{
+        //    fileData = screenShot.EncodeToPNG();
+        //}
+        //else if (format == Format.JPG)
+        //{
+        //    fileData = screenShot.EncodeToJPG();
+        //}
+        //else // ppm
+        //{
+        //    // create a file header for ppm formatted file
+        //    string headerStr = string.Format("P6\n{0} {1}\n255\n", width, height);
+        //    fileHeader = System.Text.Encoding.ASCII.GetBytes(headerStr);
+        //    fileData = screenShot.GetRawTextureData();
+        //}
 
         // create new thread to save the image to file (only operation that can be done in background)
-        new System.Threading.Thread(() =>
-        {
-            // create file and write optional header with image bytes
-            var f = System.IO.File.Create(filepath);
-            if (fileHeader != null) f.Write(fileHeader, 0, fileHeader.Length);
-            f.Write(fileData, 0, fileData.Length);
-            f.Close();
-            Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filepath, fileData.Length));
+        //new System.Threading.Thread(() =>
+        //{
+        //    // create file and write optional header with image bytes
+        //    var f = System.IO.File.Create(filepath);
+        //    if (fileHeader != null) f.Write(fileHeader, 0, fileHeader.Length);
+        //    f.Write(fileData, 0, fileData.Length);
+        //    f.Close();
+        //    Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filepath, fileData.Length));
 
-            // Write the coordinates to the file.
-            using (StreamWriter writer = File.AppendText(filePath))
-            {
-                writer.WriteLine(filename + "\n" +carCoordLine);
-                writer.Close();
-            }
-        }).Start();
+        //    // Write the coordinates to the file.
+        //    using (StreamWriter writer = File.AppendText(filePath))
+        //    {
+        //        writer.WriteLine(filename + "\n" +carCoordLine);
+        //        writer.Close();
+        //    }
+        //}).Start();
 
         // unhide optional game object if set
         if (hideGameObject != null) hideGameObject.SetActive(true);
