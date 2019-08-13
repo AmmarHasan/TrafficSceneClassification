@@ -113,16 +113,16 @@ public class ScreenRecorder : MonoBehaviour
         // make sure directoroy exists
         Directory.CreateDirectory(captureFolder);
 
-        // Wenn nicht vorhanden den filepath holen und die Datei erzeugen
-        if (filePath == null)
-        {
-            this.filePath = Path.Combine(captureFolder, coordFilename);
+        //// Wenn nicht vorhanden den filepath holen und die Datei erzeugen
+        //if (filePath == null)
+        //{
+        //    this.filePath = Path.Combine(captureFolder, coordFilename);
 
-            if (!File.Exists(filePath))
-            {
-                File.Create(filePath);
-            }
-        }
+        //    if (!File.Exists(filePath))
+        //    {
+        //        File.Create(filePath);
+        //    }
+        //}
     }
 
     public void CaptureScreenshot()
@@ -147,10 +147,10 @@ public class ScreenRecorder : MonoBehaviour
         captureScreenshot = false;
 
         // Nur Bilder von Scenen machen, in denen auch ein Auto zu sehen ist.
-        if (this.TakePicturesOnlyWithCars && carCoordLine.IsNullOrEmpty())
-        {
-            return;
-        }
+        //if (this.TakePicturesOnlyWithCars && carCoordLine.IsNullOrEmpty())
+        //{
+        //    return;
+        //}
 
         // hide optional game object if set
         if (hideGameObject != null) hideGameObject.SetActive(false);

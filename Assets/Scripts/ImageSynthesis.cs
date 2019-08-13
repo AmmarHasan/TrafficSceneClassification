@@ -215,7 +215,7 @@ public class ImageSynthesis : MonoBehaviour
             // Perform a check to make sure that the capture pass should be saved
             if (
                 (pass.name == "_img" && saveImage) ||
-                //(pass.name == "_id" && saveIdSegmentation) ||
+                (pass.name == "_id" && saveIdSegmentation) ||
                 (pass.name == "_layer" && saveLayerSegmentation) ||
                 (pass.name == "_depth" && saveDepth) ||
                 (pass.name == "_normals" && saveNormals) ||

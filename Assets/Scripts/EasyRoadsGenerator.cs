@@ -93,29 +93,29 @@ public class EasyRoadsGenerator : MonoBehaviour
                 {
                     return;
                 }
-                textToAppend += "---\n";
-                foreach(Tuple<GameObject, int> visibleCar in visibleCars)
-                {
-                    textToAppend +=
-                        visibleCar.Second + "," +
-                        visibleCar.First.GetComponent<ProjectOnCamera2D>()
-                            .getRelativeBoxCoords()
-                            .Select(c => c.First.ToString("G", culture) + "," + c.Second.ToString("G", culture))
-                            .Aggregate((a, b) => a + "," + b)
-                        + ";";
-                    textToAppend += "\n";
+                //textToAppend += "---\n";
+                //foreach(Tuple<GameObject, int> visibleCar in visibleCars)
+                //{
+                //    textToAppend +=
+                //        visibleCar.Second + "," +
+                //        visibleCar.First.GetComponent<ProjectOnCamera2D>()
+                //            .getRelativeBoxCoords()
+                //            .Select(c => c.First.ToString("G", culture) + "," + c.Second.ToString("G", culture))
+                //            .Aggregate((a, b) => a + "," + b)
+                //        + ";";
+                //    textToAppend += "\n";
 
-                    // Write Visible car's bounding rectangle pixel value
-                    Rect r = visibleCar.First.GetComponent<ProjectOnCamera2D>()
-                            .getCarPositionInFrame();
-                    textToAppend += r.center + ",";
-                    textToAppend += "(" + r.xMin + ",";
-                    textToAppend += r.yMin+ "),";
-                    textToAppend += "(" + r.xMax + ",";
-                    textToAppend += r.yMax + ")\n";
-                }
+                //    // Write Visible car's bounding rectangle pixel value
+                //    Rect r = visibleCar.First.GetComponent<ProjectOnCamera2D>()
+                //            .getCarPositionInFrame();
+                //    textToAppend += r.center + ",";
+                //    textToAppend += "(" + r.xMin + ",";
+                //    textToAppend += r.yMin+ "),";
+                //    textToAppend += "(" + r.xMax + ",";
+                //    textToAppend += r.yMax + ")\n";
+                //}
 
-                textToAppend += "---\n";
+                //textToAppend += "---\n";
                 screenRecorder.TakePicture(textToAppend);
             }
 
