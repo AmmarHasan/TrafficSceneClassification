@@ -134,48 +134,49 @@ public class EasyRoadsGenerator : MonoBehaviour
         this.network = new ERRoadNetwork();
         this.network.BuildRoadNetwork();
 
-        foreach (ERRoadType roadType in this.network.GetRoadTypes())
+        //foreach (ERRoadType roadType in this.network.GetRoadTypes()[0])
+        //{
+        ERRoadType roadType = this.network.GetRoadTypes()[0];
+        roadType.layer = 10;
+
+        switch (this.numberOfTracks)
         {
-            roadType.layer = 10;
-            switch (this.numberOfTracks)
-            {
-                case 8:
-                    // If eight tracks are needed (roadWidth has been adjusted)
-                    roadType.roadMaterial = Resources.Load<Material>("Road8Lanes");
-                    roadType.roadWidth = 30;
-                    roadType.Update();
-                    break;
-                case 6:
-                    // Falls sechs Spuren benötigt werden (roadWidth wurde angepasst)
-                    roadType.roadMaterial = Resources.Load<Material>("Road6Lanes");
-                    roadType.roadWidth = 20;
-                    roadType.Update();
-                    break;
-                case 4:
-                    // Falls vier Spuren benötigt werden
-                    roadType.roadMaterial = Resources.Load<Material>("Road4Lanes");
-                    roadType.roadWidth = 12;
-                    roadType.Update();
-                    break;
-                case 3:
-                    // Falls zwei Spuren benötigt werden (roadMaterial stimmt schon)
-                    roadType.roadMaterial = Resources.Load<Material>("Road3Lanes");
-                    roadType.roadWidth = 9;
-                    roadType.Update();
-                    break;
-                case 2:
-                    // If two tracks are needed (roadWidth has been adjusted)
-                    roadType.roadWidth = 6;
-                    roadType.Update();
-                    break;
-                case 1:
-                default:
-                    // Falls zwei Spuren benötigt werden (roadMaterial stimmt schon)
-                    roadType.roadMaterial = Resources.Load<Material>("Road1Lane");
-                    roadType.roadWidth = 3;
-                    roadType.Update();
-                    break;
-            }
+            case 8:
+                // If eight tracks are needed (roadWidth has been adjusted)
+                roadType.roadMaterial = Resources.Load<Material>("Road8Lanes");
+                roadType.roadWidth = 30;
+                roadType.Update();
+                break;
+            case 6:
+                // Falls sechs Spuren benötigt werden (roadWidth wurde angepasst)
+                roadType.roadMaterial = Resources.Load<Material>("Road6Lanes");
+                roadType.roadWidth = 20;
+                roadType.Update();
+                break;
+            case 4:
+                // Falls vier Spuren benötigt werden
+                roadType.roadMaterial = Resources.Load<Material>("Road4Lanes");
+                roadType.roadWidth = 12;
+                roadType.Update();
+                break;
+            case 3:
+                // Falls zwei Spuren benötigt werden (roadMaterial stimmt schon)
+                roadType.roadMaterial = Resources.Load<Material>("Road3Lanes");
+                roadType.roadWidth = 9;
+                roadType.Update();
+                break;
+            case 2:
+                // If two tracks are needed (roadWidth has been adjusted)
+                roadType.roadWidth = 6;
+                roadType.Update();
+                break;
+            case 1:
+            default:
+                // Falls zwei Spuren benötigt werden (roadMaterial stimmt schon)
+                roadType.roadMaterial = Resources.Load<Material>("Road1Lane");
+                roadType.roadWidth = 3;
+                roadType.Update();
+                break;
         }
     }
     #endregion
@@ -269,6 +270,12 @@ public class EasyRoadsGenerator : MonoBehaviour
             curvePositions[i] = oldPosition + Quaternion.AngleAxis(anglePart, yAxis) * direction * lengthPart;
         }
 
+        ERRoadType lane1 = this.network.GetRoadTypes()[1];
+        Vector3[] curvePositionsClone = (Vector3[])curvePositions.Clone();
+        for (int i = 1; i < numbPositions; i++) { 
+            curvePositionsClone[i].y = 0.01f;
+        }
+        ERRoad thisRoadClone = this.network.CreateRoad("Curve" + network.GetRoads().Count()+ "-clone", lane1, curvePositionsClone);
         // Create the curve.
         ERRoad thisRoad = this.network.CreateRoad("Curve" + network.GetRoads().Count(), roadType, curvePositions);
         customEasyRoads.Add(new CustomEasyRoad(car, thisRoad, minCars, maxCars, numberOfTracks));
@@ -451,9 +458,9 @@ public class EasyRoadsGenerator : MonoBehaviour
     /// <returns>Der zufällige RoadType</returns>
     ERRoadType GetRandomRoadType()
     {
-        int index = UnityEngine.Random.Range(0, this.network.GetRoadTypes().Count());
+        //int index = UnityEngine.Random.Range(0, this.network.GetRoadTypes().Count());
 
-        return this.network.GetRoadTypes()[index];
+        return this.network.GetRoadTypes()[0];
     }
     #endregion GetRandomRoadType
 
