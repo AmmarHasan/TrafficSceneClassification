@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using UnityEngine;
+    using EasyRoads3Dv3;
 
     public class ConfigurationLoader : MonoBehaviour
     {
@@ -38,6 +39,11 @@
                             break;
                         default:
                             throw new Exception("Undefined Road Type '" + roadPartConfig.Type + "'");
+                    }
+                }
+                for (int laneNumber = 1; laneNumber < generator.numberOfTracks; laneNumber++){
+                    foreach (CustomEasyRoad customEasyRoad in generator.customEasyRoads){
+                        generator.CreateLane(customEasyRoad.Road, customEasyRoad.Type, laneNumber);
                     }
                 }
             }

@@ -10,7 +10,7 @@
       "MinCars": 1,
       "MaxCars": 2,
       "Angle": 25,
-      "HeightDifference": 0.001,
+      "HeightDifference": 0,
       "Seed": null
     },
     {

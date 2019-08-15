@@ -3,10 +3,15 @@ using EasyRoads3Dv3;
 using System.Collections;
 using Assets.Scripts.Classes;
 using System.Collections.Generic;
-
+using Assets.Scripts.Configuration;
 
 public class CustomEasyRoad
 {
+    /// <summary>
+    /// RoadPartType| Straight or Curve.
+    /// </summary>
+    public RoadPartType Type { get; private set; }
+
     /// <summary>
     /// All cars on the track.
     /// </summary>
@@ -35,8 +40,9 @@ public class CustomEasyRoad
     /// <param name="minCars">The minimum number of cars on the track.</param>
     /// <param name="maxCars">The maximum number of cars on the track.</param>
     /// <param name="numberOfTracks">The number of tracks.</param>
-    public CustomEasyRoad(GameObject car, ERRoad road, int minCars, int maxCars, int numberOfTracks)
+    public CustomEasyRoad(GameObject car, ERRoad road, int minCars, int maxCars, int numberOfTracks, RoadPartType roadPartType)
     {
+        this.Type = roadPartType;
         road.SetTag("Street");
 
         this.Road = road;

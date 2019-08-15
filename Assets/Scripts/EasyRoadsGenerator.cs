@@ -9,6 +9,7 @@ using Assets.Scripts.Classes;
 using System.IO;
 using System.Text;
 using System.Globalization;
+using Assets.Scripts.Configuration;
 
 public class EasyRoadsGenerator : MonoBehaviour
 {
@@ -208,7 +209,7 @@ public class EasyRoadsGenerator : MonoBehaviour
         Vector3 heading = new Vector3(0, 0, 1);
 
         // Get the RoadType
-        ERRoadType roadType = this.GetRandomRoadType();
+        ERRoadType roadType = this.network.GetRoadTypes()[0];
 
         // Get the position of the last leg, if any.
         ERRoad lastRoad = null;
@@ -268,17 +269,12 @@ public class EasyRoadsGenerator : MonoBehaviour
 
             // Calculate the new position.
             curvePositions[i] = oldPosition + Quaternion.AngleAxis(anglePart, yAxis) * direction * lengthPart;
+            curvePositions[i].y = 0.01f;
         }
 
-        ERRoadType lane1 = this.network.GetRoadTypes()[1];
-        Vector3[] curvePositionsClone = (Vector3[])curvePositions.Clone();
-        for (int i = 1; i < numbPositions; i++) { 
-            curvePositionsClone[i].y = 0.01f;
-        }
-        ERRoad thisRoadClone = this.network.CreateRoad("Curve" + network.GetRoads().Count()+ "-clone", lane1, curvePositionsClone);
         // Create the curve.
         ERRoad thisRoad = this.network.CreateRoad("Curve" + network.GetRoads().Count(), roadType, curvePositions);
-        customEasyRoads.Add(new CustomEasyRoad(car, thisRoad, minCars, maxCars, numberOfTracks));
+        customEasyRoads.Add(new CustomEasyRoad(car, thisRoad, minCars, maxCars, numberOfTracks, RoadPartType.Curve));
         return thisRoad;
     }
     #endregion
@@ -300,7 +296,7 @@ public class EasyRoadsGenerator : MonoBehaviour
         this.network.BuildRoadNetwork();
 
         // Den RoadType holen
-        ERRoadType roadType = this.GetRandomRoadType();
+        ERRoadType roadType = this.network.GetRoadTypes()[0];
 
         // Hole die akutellen Streckenteile
         ERRoad[] currentRoads = network.GetRoads();
@@ -309,7 +305,7 @@ public class EasyRoadsGenerator : MonoBehaviour
         float fixHeightDifference = heightDifference ?? 0;
 
         // Lege die Positionen der Strecke an
-        Vector3 startPosition = new Vector3(0, 0, 0);
+        Vector3 startPosition = new Vector3(0, 0.01f, 0);
         Vector3 middlePosition = new Vector3(0, fixHeightDifference / 2, length / 2);
         Vector3 endPosition = new Vector3(0, fixHeightDifference, length);
 
@@ -351,8 +347,31 @@ public class EasyRoadsGenerator : MonoBehaviour
         }
 
         // Erstelle die Strecke mit einem eindeutigen Namen
-        customEasyRoads.Add(new CustomEasyRoad(car,road,minCars,maxCars, numberOfTracks));
+        customEasyRoads.Add(new CustomEasyRoad(car,road,minCars,maxCars, numberOfTracks, RoadPartType.Straight));
         return road;
+    }
+    #endregion
+
+    #region CreateLane
+    public void CreateLane(ERRoad originalRoadPart, RoadPartType roadPartType, int laneNumber)
+    {
+        Vector3[] originialRoadPostions = originalRoadPart.roadScript.splinePoints.ToArray();
+        List<Vector3> meshVectorsOriginal = originalRoadPart.roadScript.meshVecs;
+        ERRoadType roadTypeLane = this.network.GetRoadTypes()[laneNumber];
+        int numbPositions = originialRoadPostions.Length;
+        Vector3[] curvePositions = new Vector3[numbPositions];
+
+        // Important: Step should be numberOfTracks+1. 
+        // For this you must change number of segments for each road type
+        int step = meshVectorsOriginal.Count / numbPositions;
+
+        for (int m = 0, i = 0; m < meshVectorsOriginal.Count && i < numbPositions; m += step, i++)
+        {
+            Vector3 laneMiddle = Vector3.Lerp(meshVectorsOriginal[m + (step - laneNumber - 1)], meshVectorsOriginal[m + (step - laneNumber)], 0.5f);
+            curvePositions[i] = laneMiddle;
+            curvePositions[i].y = originialRoadPostions[i].y + 0.01f;
+        }
+        this.network.CreateRoad(roadPartType.ToString() + network.GetRoads().Count() + "-lane:"+laneNumber, roadTypeLane, curvePositions);
     }
     #endregion
 
@@ -450,19 +469,6 @@ public class EasyRoadsGenerator : MonoBehaviour
         isPlaced = true;
     }
     #endregion
-
-    #region GetRandomRoadType
-    /// <summary>
-    /// Returns a random RoadType of the current network.
-    /// </summary>
-    /// <returns>Der zufällige RoadType</returns>
-    ERRoadType GetRandomRoadType()
-    {
-        //int index = UnityEngine.Random.Range(0, this.network.GetRoadTypes().Count());
-
-        return this.network.GetRoadTypes()[0];
-    }
-    #endregion GetRandomRoadType
 
     #region DestroyColliderCars
     /// <summary>
