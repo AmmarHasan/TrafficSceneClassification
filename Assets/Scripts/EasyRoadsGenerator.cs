@@ -145,13 +145,13 @@ public class EasyRoadsGenerator : MonoBehaviour
             case 8:
                 // If eight tracks are needed (roadWidth has been adjusted)
                 roadType.roadMaterial = Resources.Load<Material>("Road8Lanes");
-                roadType.roadWidth = 30;
+                roadType.roadWidth = 24;
                 roadType.Update();
                 break;
             case 6:
                 // Falls sechs Spuren benötigt werden (roadWidth wurde angepasst)
                 roadType.roadMaterial = Resources.Load<Material>("Road6Lanes");
-                roadType.roadWidth = 20;
+                roadType.roadWidth = 18;
                 roadType.Update();
                 break;
             case 4:
