@@ -4,10 +4,6 @@ import numpy.random as npr
 from keras.utils import to_categorical
 from pathlib import Path
 import tensorflow as tf
-# import tensorflow.compat.v1 as tf
-# tf.disable_v2_behavior()
-# import _pickle as cPickle
-
 
 # Config
 trainDirectory = 'Data/images_train/numpy'
@@ -22,8 +18,8 @@ imgWidth = 224
 imgHeight = 128
 neuronsInImage = imgWidth*imgHeight*3
 lrs = [0.1, 0.05, 0.01, 0.005, 0.001, 0.0005]
-EPOCHS = 20
-BATCH_SIZE = 64
+EPOCHS = 60
+BATCH_SIZE = 512
 segmented_dict = [ 'sky', 'terrrain', 'tree', 'house', 'mycar', 'otherCar', 'lane4', 'lane3', 'lane2', 'lane1', ]
 
 imagesAsArray = []
@@ -55,13 +51,10 @@ imagesAsArrayDuplicate = np.array(imagesAsArrayDuplicate).reshape(-1,neuronsInIm
 imagesAndCoordinate = np.concatenate((imagesAsArrayDuplicate,point_coordinates), axis=1)
 print(imagesAndCoordinate.shape)
 
-# if (numberOfTrainingImages + numberOfTestingImages >= imagesAsArray.shape[0]):
-#   print('Changed number of trainig and testing data')
-#   numberOfTrainingImages = 1000
-#   numberOfTestingImages = 3265
 
 # ## Shuffling and Splitting training & testing data
-# In[ ]:
+imagesAsArrayDuplicate=None
+imagesAsArray=None
 rawIndices = np.array(range(0,labelsHotVectors.shape[0]))
 npr.shuffle(rawIndices)
 trainIndice = rawIndices[0:numberOfTrainingImages]
@@ -70,40 +63,14 @@ traind = imagesAndCoordinate[trainIndice]
 trainl = labelsHotVectors[trainIndice]
 testd = imagesAndCoordinate[testIndice]
 testl = labelsHotVectors[testIndice]
-imagesAsArray=None
 point_coordinates=None
 labelsHotVectors=None
-imagesAsArrayDuplicate=None
 imagesAndCoordinate=None
 rawIndices=None
-
-# # ## Logging configuration
-# # In[ ]:
-# print('Class Distribution: {}'.format(trainl.sum(axis=0)))
-# print('Training Data Dimension: {}'.format(traind.shape))
-# print('Training Label Dimension: {}'.format(trainl.shape))
-# print('Testing Data Dimension: {}'.format(testd.shape))
-# print('Testing Label Dimension: {}'.format(testl.shape))
-# print('EPOCHS: {}'.format(EPOCHS))
-# print('BATCH_SIZE: {}'.format(BATCH_SIZE))
-# print('Optimizer: SGD')
-# print('Learning Rate: {}'.format(LR))
-
-# # ## Flatten/Reshape Input
-# # In[ ]:
-# traind = traind.reshape(-1, imgHeight*imgWidth*1)
-# testd = testd.reshape(-1, imgHeight*imgWidth* 1)
-# print(traind.shape, testd.shape)
-
 
 # ## Initialize data tensor in NHWC format
 data_placeholder = tf.placeholder(tf.float32,[None,neuronsInImage+2])
 label_placeholder = tf.placeholder(tf.float32,[None,totalClasses])
-# coordinate_placeholder = tf.placeholder(tf.float32,[None,totalClasses])
-# black_pixel=tf.Variable(tf.zeros(shape=(3)),dtype=tf.float32)
-# sess.run(tf.concat([dp,[b]],0),feed_dict={dp:[[1,2,3], [4,5,6]]})
-# sess.run(var,feed_dict={var:[1,2,3]})
-# tf.concat([[b], data_placeholder],0),feed_dict={dp:[[1,2,3], [4,5,6]]})
 
 # compute activations
 W = tf.Variable(tf.zeros(shape=(neuronsInImage+2,totalClasses)),dtype=tf.float32)
@@ -111,20 +78,65 @@ b = tf.Variable(tf.ones(shape=(1,totalClasses)),dtype=tf.float32)
 # cp = tf.constant([coordinate_placeholder[0], coordinate_placeholder[1],0,0])
 logits = tf.matmul(data_placeholder,W) + b #+ coordinate_placeholder;
 
+# # ## Hidden Layer 1
+# # #### Convolution Layer with 32 fiters and a kernel size of 5
+# conv1 = tf.nn.relu(tf.layers.conv2d(data_placeholder,6, 5,name="H1"))
+# print(conv1)
+
+# # #### Max Pooling (down-sampling) with strides of 2 and kernel size of 2
+# a1 = tf.layers.max_pooling2d(conv1, 2, 2)
+# print(a1)
+
+# # ## Hidden Layer 2
+# # #### Convolution Layer with 64 filters and a kernel size of 3
+# conv2 = tf.nn.relu(tf.layers.conv2d(a1, 16, 5,name="H2"))
+
+# # #### Max Pooling (down-sampling) with strides of 2 and kernel size of 2
+# a2 = tf.layers.max_pooling2d(conv2, 2, 2)
+# print(a2)
+# # a2flat = tf.reshape(a2, (-1,4*4*16))
+# a2flat = tf.reshape(a2, (-1,33*61*16))
+# print(a2flat)
+
+# # ## Hidden Layer 3
+# Z3 = 120
+# # allocate variables
+# # W3 = tf.Variable(npr.uniform(-0.01,0.01, [4*4*16,Z3]),dtype=tf.float32, name ="W3")
+# W3 = tf.Variable(npr.uniform(-0.01,0.01, [33*61*16,Z3]),dtype=tf.float32, name ="W3")
+# b3 = tf.Variable(npr.uniform(-0.01,0.01, [1,Z3]),dtype=tf.float32, name ="b3")
+# # compute activations
+# a3 = tf.nn.relu(tf.matmul(a2flat, W3) + b3)
+# print(a3)
+
+# # ## Hidden Layer 4
+# Z4 = 84
+# # allocate variables
+# W4 = tf.Variable(npr.uniform(-0.01,0.01, [Z3,Z4]),dtype=tf.float32, name ="W4")
+# b4 = tf.Variable(npr.uniform(-0.01,0.01, [1,Z4]),dtype=tf.float32, name ="b4")
+# # compute activations
+# a4 = tf.nn.relu(tf.matmul(a3, W4) + b4)
+# print(a4)
+
+# # ## Output layer
+# # alloc variables
+# Z5 = numberOfLanes
+# W5 = tf.Variable(npr.uniform(-0.1,0.1, [Z4,Z5]),dtype=tf.float32, name ="W5")
+# b5 = tf.Variable(npr.uniform(-0.01,0.01, [1,Z5]),dtype=tf.float32, name ="b5")
+# # compute activations
+# logits = tf.matmul(a4, W5) + b5
+# print(logits)
+
 # ## Loss and Accuracy functions
-# In[ ]:
 lossBySample = tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits, labels=label_placeholder)
 loss = tf.reduce_mean(lossBySample)
 
 nrCorrect = tf.reduce_mean(tf.cast(tf.equal (tf.argmax(logits,axis=1), tf.argmax(label_placeholder,axis=1)), tf.float32))
 
 # ## Create update optimizer
-# In[ ]:
 optimizer = tf.train.GradientDescentOptimizer(learning_rate = lrs[2])
 update = optimizer.minimize(loss)
 
 # ## Learn
-# In[ ]:
 # Model Evaluation
 def evaluate(X_data, y_data):
     num_examples = len(X_data)
@@ -136,7 +148,6 @@ def evaluate(X_data, y_data):
         total_accuracy += (accuracy * len(batch_x))
     return total_accuracy / num_examples
 
-# In[ ]:
 with tf.Session() as sess:
     ## init all variables
     sess.run(tf.global_variables_initializer())
@@ -161,6 +172,6 @@ with tf.Session() as sess:
         print("Test Accuracy = {:.6f}".format(test_accuracy))
         print()
     
-#     test_accuracy = evaluate(testd, testl)
-#     print("Test Accuracy = {:.3f}".format(test_accuracy))
+    test_accuracy = evaluate(testd, testl)
+    print("Test Accuracy = {:.3f}".format(test_accuracy))
 
