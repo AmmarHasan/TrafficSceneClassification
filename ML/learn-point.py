@@ -31,7 +31,6 @@ for filePath in Path(trainDirectory).glob('*.npy'):
   # Normalization and Flattening/Reshaping
   imageAsArray = imageAsArray/255.0
   imageAsArray = imageAsArray.reshape(imgHeight, imgWidth, 3)
-
   points_data = np.load(pointsDataDirectory+label+'.npy', allow_pickle=True)
   point_coordinate = np.asarray([point[0] for point in points_data])
   point_label = np.asarray([point[1] for point in points_data])
@@ -45,13 +44,19 @@ imagesAsArrayDuplicate = []
 for i in range(0, len(imagesAsArray)):
   imagesAsArrayDuplicate.append([imageAsArray for _ in point_coordinates[i]])
 
-point_coordinates = np.array(point_coordinates).reshape(-1,2)
+point_coordinates = np.array(point_coordinates).reshape(-1,3)
 labelsHotVectors = np.array(labelsHotVectors).reshape(-1,10)
-imagesAsArrayDuplicate = np.array(imagesAsArrayDuplicate).reshape(-1,neuronsInImage)
-imagesAndCoordinate = np.concatenate((imagesAsArrayDuplicate,point_coordinates), axis=1)
-imagesAsArrayDuplicate=None
+imagesAsArrayDuplicate = np.array(imagesAsArrayDuplicate).reshape(-1,imgHeight, imgWidth, 3)
+# imagesAsArrayDuplicate = np.array(imagesAsArrayDuplicate).reshape(-1,neuronsInImage)
+# imagesAndCoordinate = np.concatenate((imagesAsArrayDuplicate,point_coordinates), axis=1)
+print(imagesAsArrayDuplicate.shape)
+print(point_coordinates.shape)
+imagesAsArrayDuplicate[:,0,0,0]=point_coordinates[:,0]
+imagesAsArrayDuplicate[:,0,0,1]=point_coordinates[:,1]
+imagesAsArrayDuplicate[:,0,0,2]=point_coordinates[:,2]
+# imagesAsArrayDuplicate=None
 # imagesAndCoordinate = np.array(imagesAndCoordinate).reshape(-1,imgHeight, imgWidth,3)
-print(imagesAndCoordinate.shape)
+# print(imagesAndCoordinate.shape)
 
 
 # ## Shuffling and Splitting training & testing data
@@ -60,13 +65,13 @@ rawIndices = np.array(range(0,labelsHotVectors.shape[0]))
 npr.shuffle(rawIndices)
 trainIndice = rawIndices[0:numberOfTrainingImages]
 testIndice = rawIndices[numberOfTrainingImages: numberOfTrainingImages + numberOfTestingImages]
-traind = imagesAndCoordinate[trainIndice]
+traind = imagesAsArrayDuplicate[trainIndice]
 trainl = labelsHotVectors[trainIndice]
-testd = imagesAndCoordinate[testIndice]
+testd = imagesAsArrayDuplicate[testIndice]
 testl = labelsHotVectors[testIndice]
 point_coordinates=None
 labelsHotVectors=None
-imagesAndCoordinate=None
+imagesAsArrayDuplicate=None
 rawIndices=None
 
 # ## Initialize data tensor in NHWC format
@@ -91,19 +96,24 @@ print(a1)
 # ## Hidden Layer 2
 # #### Convolution Layer with 64 filters and a kernel size of 3
 conv2 = tf.nn.relu(tf.layers.conv2d(a1, 16, 5,name="H2"))
+print(conv2)
 
 # #### Max Pooling (down-sampling) with strides of 2 and kernel size of 2
 a2 = tf.layers.max_pooling2d(conv2, 2, 2)
 print(a2)
+# For 28x28:
 # a2flat = tf.reshape(a2, (-1,4*4*16))
-a2flat = tf.reshape(a2, (-1,33*61*16))
+# For 144x256:
+# a2flat = tf.reshape(a2, (-1,33*61*16)) 
+# For 128x224:
+a2flat = tf.reshape(a2, (-1,29*53*16)) 
 print(a2flat)
 
 # ## Hidden Layer 3
 Z3 = 120
 # allocate variables
 # W3 = tf.Variable(npr.uniform(-0.01,0.01, [4*4*16,Z3]),dtype=tf.float32, name ="W3")
-W3 = tf.Variable(npr.uniform(-0.01,0.01, [33*61*16,Z3]),dtype=tf.float32, name ="W3")
+W3 = tf.Variable(npr.uniform(-0.01,0.01, [29*53*16,Z3]),dtype=tf.float32, name ="W3")
 b3 = tf.Variable(npr.uniform(-0.01,0.01, [1,Z3]),dtype=tf.float32, name ="b3")
 # compute activations
 a3 = tf.nn.relu(tf.matmul(a2flat, W3) + b3)
@@ -120,7 +130,7 @@ print(a4)
 
 # ## Output layer
 # alloc variables
-Z5 = numberOfLanes
+Z5 = totalClasses
 W5 = tf.Variable(npr.uniform(-0.1,0.1, [Z4,Z5]),dtype=tf.float32, name ="W5")
 b5 = tf.Variable(npr.uniform(-0.01,0.01, [1,Z5]),dtype=tf.float32, name ="b5")
 # compute activations
