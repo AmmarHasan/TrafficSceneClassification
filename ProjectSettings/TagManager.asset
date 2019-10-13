@@ -9,6 +9,7 @@ TagManager:
   - ObjectToHide
   - ObjectSegmentCamera
   - Tree
+  - lane1
   layers:
   - Default
   - TransparentFX
@@ -28,11 +29,11 @@ TagManager:
   - Lane1
   - Lane2
   - Lane3
-  - Lane4
+  - Lane8
   - Lane5
   - Lane6
   - Lane7
-  - Lane8
+  - Lane4
   - 
   - 
   - 

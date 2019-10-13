@@ -9,17 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1549959041641544}
+  m_RootGameObject: {fileID: 1253308440126032}
   m_IsPrefabAsset: 1
---- !u!1 &1549959041641544
+--- !u!1 &1253308440126032
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4993508410207018}
-  - component: {fileID: 114326590433364106}
+  - component: {fileID: 4656380128808436}
+  - component: {fileID: 114463376299697708}
   m_Layer: 11
   m_Name: ERSideObjectsLog
   m_TagString: Untagged
@@ -27,12 +27,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4993508410207018
+--- !u!4 &4656380128808436
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549959041641544}
+  m_GameObject: {fileID: 1253308440126032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,12 +40,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114326590433364106
+--- !u!114 &114463376299697708
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549959041641544}
+  m_GameObject: {fileID: 1253308440126032}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 353395545, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
@@ -586,8 +586,8 @@ MonoBehaviour:
   roadPresets:
   - roadTypeName: Trees
     id: 0
-    timestamp: 1566396585.308538
-    roadWidth: 3
+    timestamp: 1570983657.789661
+    roadWidth: 9
     faceDistance: 4
     angleTreshold: 45
     uvTiling: 1
@@ -614,22 +614,25 @@ MonoBehaviour:
       selectedLaneNode: 0
       isset: 0
     roadShape:
-    - {x: -3, y: 0}
-    - {x: 0, y: 0}
-    - {x: 3, y: 0}
+    - {x: -4.5, y: 0}
+    - {x: -1.5, y: 0}
+    - {x: 1.5, y: 0}
+    - {x: 4.5, y: 0}
     roadShapeExt: []
     roadShapeExt2: []
     doConnectionTri: 
     doConnectionTriExt: 
     roadShapeUVs:
     - 0
-    - 0.5
+    - 0.33333334
+    - 0.6666667
     - 1
     roadShapeExtUVs: []
     roadShapeExtUVs2: []
     roadShapeUVs2:
     - 0
-    - 0.5
+    - 0.33333334
+    - 0.6666667
     - 1
     hardEdge: 
     roadShapeVecsString: 
@@ -637,16 +640,16 @@ MonoBehaviour:
     sidewalks: 0
     sidewalkHeight: 0.2
     sidewalkWidth: 2
-    roadMaterial: {fileID: 2100000, guid: b28cd6607237b42a4873021eb4f5d6db, type: 2}
+    roadMaterial: {fileID: 2100000, guid: 2b661b03606cc45f1a516df3252a5666, type: 2}
     roadMaterials:
-    - {fileID: 2100000, guid: b28cd6607237b42a4873021eb4f5d6db, type: 2}
+    - {fileID: 2100000, guid: 2b661b03606cc45f1a516df3252a5666, type: 2}
     roadPhysicsMaterial: {fileID: 0}
     roadPhysicsMaterials: []
     connectionMaterial: {fileID: 2100000, guid: 3c555588afad81d428ad1704d5d015a7,
       type: 2}
     isSideObject: 0
     isCustomRoad: 0
-    subSegments: 2
+    subSegments: 3
     soData: []
     soDataExt: []
     soDataLog:

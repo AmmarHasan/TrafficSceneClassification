@@ -52,7 +52,7 @@ public class ColorEncoding
     {
         // Following value must be in the range (0.5 .. 1.0)
         // in order to avoid color overlaps when using 'divider' in this func
-        var z = .7f;
+        var z = .6f;
 
         // First 8 layers are Unity Builtin layers
         // Unity supports up to 32 layers in total

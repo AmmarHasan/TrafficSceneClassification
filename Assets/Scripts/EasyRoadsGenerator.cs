@@ -27,7 +27,8 @@ public class EasyRoadsGenerator : MonoBehaviour
     public int carSpeed = 50;
     public int numberOfTracks = 0;
     private CultureInfo culture;
-
+    private List<Vector3> lane1CenterPoints = new List<Vector3>();
+    private int currentIndex = 0;
     void Start()
     {
         network = new ERRoadNetwork();
@@ -37,6 +38,11 @@ public class EasyRoadsGenerator : MonoBehaviour
         projectOnCamera2D.cam = Camera.main;
 
         culture = CultureInfo.CreateSpecificCulture("en-US");
+        //if (this.isSelfDriving)
+        //{
+
+            InvokeRepeating("SimulateCar", 2.0f, 2.0f);
+        //}
     }
 
     void Update()
@@ -55,10 +61,10 @@ public class EasyRoadsGenerator : MonoBehaviour
             }
 
             // If the car does not drive itself, then simulate driving
-            if (this.isSelfDriving)
-            {
-                SimulateCar();
-            }
+            // if (this.isSelfDriving)
+            // {
+            //     SimulateCar();
+            // }
 
             // Activate the ScreenRecorder
             ScreenRecorder screenRecorder = Camera.main.GetComponent<ScreenRecorder>();
@@ -371,7 +377,14 @@ public class EasyRoadsGenerator : MonoBehaviour
             curvePositions[i] = laneMiddle;
             curvePositions[i].y = originialRoadPostions[i].y + 0.01f;
         }
-        this.network.CreateRoad(roadPartType.ToString() + network.GetRoads().Count() + "-lane:"+laneNumber, roadTypeLane, curvePositions);
+        ERRoad newRoad = this.network.CreateRoad(roadPartType.ToString() + network.GetRoads().Count() + "-lane:"+laneNumber, roadTypeLane, curvePositions);
+        if (laneNumber == 1) { 
+            newRoad.SetTag("lane1");
+            for (int i = 0; i < curvePositions.Length; i++)
+            {
+                lane1CenterPoints.Add(curvePositions[i]);
+            }
+        }
     }
     #endregion
 
@@ -386,7 +399,7 @@ public class EasyRoadsGenerator : MonoBehaviour
         ERRoad road = null;
         foreach (Collider collider in colliders)
         {
-            if (collider.tag == "Street")
+            if (collider.tag == "lane1")
             {
                 road = network.GetRoadByName(collider.name);
             }
@@ -396,7 +409,8 @@ public class EasyRoadsGenerator : MonoBehaviour
         if (road != null)
         {
             // Get the last point of the track
-            Vector3[] markers = road.GetMarkerPositions();
+            //Vector3[] markers = road.GetMarkerPositions();
+            Vector3[] markers = road.GetSplinePointsCenter();
             Vector3 lastMarker = markers.Last();
 
             // Die richtige Rotation ausrechnen
@@ -419,9 +433,22 @@ public class EasyRoadsGenerator : MonoBehaviour
 
         // Set speed
         Rigidbody rigidbody = cameraCar.GetComponent<Rigidbody>();
-        cameraCar.transform.Translate(Vector3.forward * (carSpeed / 3.6f) * Time.deltaTime);
-        //cameraCar.transform.rotation.SetLookRotation(heading);
-        cameraCar.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(heading), 2.5f * Time.deltaTime);
+        // cameraCar.transform.Translate(Vector3.forward * (carSpeed / 3.6f) * Time.deltaTime);
+        // //cameraCar.transform.rotation.SetLookRotation(heading);
+        // cameraCar.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(heading), 2.5f * Time.deltaTime);
+        Vector3 nextPoint= lane1CenterPoints[currentIndex];
+        nextPoint.y = nextPoint.y + 0.01f;
+        cameraCar.transform.position = nextPoint;
+
+        Vector3 targetPosition = new Vector3(lane1CenterPoints[currentIndex+1].x, lane1CenterPoints[currentIndex + 1].y, lane1CenterPoints[currentIndex + 1].z);
+        cameraCar.transform.LookAt(targetPosition);
+        currentIndex+=4;
+        Debug.Log("currentIndex: "+ currentIndex);
+        if (currentIndex - 12 > lane1CenterPoints.Count) {
+            Debug.Log(currentIndex);
+            Debug.Log("lane1CenterPointsCOunt: " + lane1CenterPoints.Count);
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
     }
     #endregion
 
