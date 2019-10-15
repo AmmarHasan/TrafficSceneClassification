@@ -8,16 +8,17 @@ def createDirectory(directory):
   return directory
 
 def resizeSaveImage(src_path, dest_path, image_name) :
-    im = Image.open(src_path)
-    nx,ny = im.size
-    # Resize images from 1280x720 to 256x144
-    # im = im.resize((int(nx/5),int(ny/5)))
-    im = im.resize((224,128))
-    im.save(dest_path + '/' + image_name +'.jpg')
+  im = Image.open(src_path)
+  nx,ny = im.size
+  # Resize images from 1280x720 to 256x144
+  # im = im.resize((int(nx/5),int(ny/5)))
+  im = im.resize((px,py))
+  im.save(dest_path + '/' + image_name + '.' + imageType)
 
-full_res_image_path = 'Data/ScreenCapture1'
-low_res_segmented_image_path = createDirectory('Data/images_segmented-1/')
-low_res_image_path = createDirectory('Data/images_train-1/')
+px,py,imageType = (256, 144, 'png')
+full_res_image_path = 'Data/ScreenCapture-3'
+low_res_segmented_image_path = createDirectory(full_res_image_path + '/images_segmented-'+ str(px)+'x'+str(py)+'-'+imageType)
+low_res_image_path = createDirectory(full_res_image_path + '/images_train-'+ str(px)+'x'+str(py)+'-'+imageType)
 
 counter = 0
 for file_path in Path(full_res_image_path).glob('**/**/*_img.jpg'):
