@@ -4,6 +4,7 @@ import numpy as np
 import os
 import random
 import numpy.random as npr
+from keras.utils import to_categorical
 
 def createDirectory(directory):
   if not os.path.exists(directory):
@@ -30,8 +31,9 @@ segmented_dict = {
   ( 128, 128, 128): 'lane2',
   ( 153, 255, 153): 'lane1',
 }
+classes = [ 'outside', 'lane1', 'lane2', 'lane3', 'lane4', ]
 
-for filePath in Path(annotationDirectory).glob('*' + imageType):
+for file_path in Path(annotationDirectory).glob('*' + imageType):
   segmented_pixels = {
     'outside': [],
     'mycar': [],
@@ -41,16 +43,21 @@ for filePath in Path(annotationDirectory).glob('*' + imageType):
     'lane2': [],
     'lane1': [],
   }
-  imageSegemented = np.array(Image.open(filePath))
+  imageSegemented = np.array(Image.open(file_path))
   # pointsData = [(coordinate,segmented_dict[tuple(imageSegemented[coordinate])]) for coordinate in allCoordinates]
-  # print(pointsData)
+  print(file_path)
+  if not os.path.exists(f"{trainDirectory}/data/{file_path.stem}/images"):
+    print("skipping")
+    continue
   for coordinate in allCoordinates:
     rgb_key = tuple(imageSegemented[coordinate])
     pixel_class = segmented_dict[rgb_key]
     # Ignoring Car's pixels
     if pixel_class=='otherCar' or pixel_class=='mycar':
       continue
-    segmented_pixels[pixel_class].append([coordinate+(0,),pixel_class])
+    npLabels = classes.index(pixel_class)
+    npLabelsHotVector = to_categorical(npLabels, num_classes=len(classes))
+    segmented_pixels[pixel_class].append([coordinate+(0,), npLabelsHotVector])
 
   random_points = []
   for segment in segmented_pixels:
@@ -63,11 +70,21 @@ for filePath in Path(annotationDirectory).glob('*' + imageType):
       # print(segmented_dict[segment],counter, no_of_segmented_pixels, random_index)
       # print(segmented_pixels[segment][random_index])
       random_points.append(segmented_pixels[segment][random_index])
-
-  label = filePath.parts[-1][:-4]
   npr.shuffle(random_points)
-  np.save(createDirectory(trainDirectory+'/points-1000/')+label+'.npy', random_points[0:1000])
-  print(trainDirectory+'/points-1000/'+label+'.npy')
+
+  for point in random_points:
+    coordinate, npLabelsHotVector = point
+    img = np.array(Image.open(trainDirectory+'/'+file_path.name))
+    img = img / 255.0                                             # Normalization and Flattening/Reshaping
+    img[py-1, px-1] = list(coordinate)
+    
+    image_with_point_path = createDirectory(f"{trainDirectory}/data/{file_path.stem}/images")
+    image_with_point_label_path = createDirectory(f"{trainDirectory}/data/{file_path.stem}/label")
+    
+    np.save(f"{image_with_point_path}/{coordinate[0]}_{coordinate[1]}.npy", img)
+    np.save(f"{image_with_point_label_path}/{coordinate[0]}_{coordinate[1]}.npy", npLabelsHotVector)
+  
+  print("\n")
   
 # # a=np.load(trainDirectory+'points/1509-2.npy', allow_pickle=True)
 # # print(a)
