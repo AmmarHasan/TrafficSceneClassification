@@ -5,20 +5,19 @@ from keras.utils import to_categorical
 from pathlib import Path
 import tensorflow as tf
 from PIL import Image
+import time
 
 # Config
 imgWidth,imgHeight,imageType = (256, 144, 'png')
 full_res_image_path = 'Data/ScreenCapture-3'
-annotationDirectory = full_res_image_path+'/images_segmented-'+str(imgWidth)+'x'+str(imgHeight)+'-'+imageType  # -224x128-png/'
 trainDirectory = full_res_image_path+'/images_train-'+str(imgWidth)+'x'+str(imgHeight)+'-'+imageType
-pointsDataDirectory = trainDirectory + '/points-1000/'
-numberOfTrainingImages = 6500
-numberOfTestingImages = 1500
-segmented_dict = [ 'outside', 'lane1', 'lane2', 'lane3', 'lane4', ]
-totalClasses = len(segmented_dict)
-neuronsInImage = imgWidth*imgHeight*3
+data_path = trainDirectory + '/shuffled_img_paths.npy'
+result='result.txt'
+save_directory='./tmp/model.ckpt'
 lrs = [0.1, 0.05, 0.01, 0.005, 0.001, 0.0005]
-EPOCHS = 1000
+classes = [ 'outside', 'lane1', 'lane2', 'lane3', 'lane4', ]
+totalClasses = len(classes)
+EPOCHS = 50
 BATCH_SIZE = 128
 
 def batch(iterable, n=1):
@@ -93,7 +92,7 @@ def getModel():
   # ## Create update optimizer
   optimizer = tf.train.GradientDescentOptimizer(learning_rate = lrs[2])
   update = optimizer.minimize(loss)
-  return (update, nrCorrect, loss, data_placeholder, label_placeholder)
+  return (logits, update, nrCorrect, loss, data_placeholder, label_placeholder)
   
 # ## Learn
 # Model Evaluation
@@ -109,49 +108,35 @@ def evaluate(X_data, y_data):
         total_loss += (lossVal * len(batch_x))
     return (total_accuracy / num_examples, total_loss / num_examples)
 
-batch_x = []
-batch_y = []
-batch_counter = 0
-img_paths = []
-for filePath in Path(trainDirectory).glob('*.png'):
-  img_paths.append(filePath)
-
-shuffled_img_paths=[]
-for img_path in img_paths:
-  points = np.load(pointsDataDirectory+img_path.stem+'.npy',allow_pickle=True)
-  for i in range(0,len(points)):
-    point_coordinate, point_label = points[i]
-    npLabels = segmented_dict.index(point_label)
-    npLabelsHotVector = to_categorical(npLabels, num_classes=len(segmented_dict))
-    shuffled_img_paths.append((i, point_coordinate,  npLabelsHotVector, img_path))
+shuffled_img_paths=np.load(data_path, allow_pickle=True)
 
 batch_img_paths = []
-npr.shuffle(shuffled_img_paths)
 for x in batch(shuffled_img_paths, BATCH_SIZE):
     batch_img_paths.append(x)
 
-# len(batch_img_paths) -> 100153
-twenty_percent = int(100153*0.2)
+twenty_percent = int(len(batch_img_paths)*0.2)
 print(twenty_percent)
-# test_img_points_paths = batch_img_paths[:twenty_percent]
-# train_img_points_paths = batch_img_paths[twenty_percent:]
-test_img_points_paths = batch_img_paths[:8]
-train_img_points_paths = batch_img_paths[8:10]
+test_img_points_paths = batch_img_paths[:twenty_percent]
+train_img_points_paths = batch_img_paths[twenty_percent:]
 
-img_paths = None
+# Freeing Memory
 shuffled_img_paths = None
 batch_img_paths = None
 
-update, nrCorrect, loss, data_placeholder, label_placeholder = getModel()
+batch_x = []
+batch_y = []
+logits, update, nrCorrect, loss, data_placeholder, label_placeholder = getModel()
 with tf.Session() as sess:
     ## init all variables
     sess.run(tf.global_variables_initializer())
+    # Add ops to save and restore all the variables.
+    saver = tf.train.Saver()
     for epoch in range(EPOCHS):
       for i in range(len(train_img_points_paths)-1):
           batch_x = []
           batch_y = []
           for j in range(BATCH_SIZE):
-              _, point_coordinate, npLabelsHotVector, img_path = train_img_points_paths[i][j]
+              point_coordinate, npLabelsHotVector, img_path = train_img_points_paths[i][j]
               img = np.array(Image.open(img_path))
               img = img / 255.0                                             # Normalization and Flattening/Reshaping
               img[imgHeight-1, imgWidth-1] = list(point_coordinate)         # Put pixel coordinates in last pixel of image
@@ -163,4 +148,40 @@ with tf.Session() as sess:
           correct, lossVal = sess.run([nrCorrect,loss], feed_dict=trainFd)
           #testacc = sess.run(nrCorrect, feed_dict = testFd)
           print('Epoch {}, acc={:.6f}, loss={:.6f}\r'.format(epoch, float(correct), lossVal), end='')
+          # Save the variables to disk.
       print()
+      f=open(result, "a+")
+      f.write('Epoch {}, acc={:.6f}, loss={:.6f}, time={}\r\n'.format(epoch, float(correct), lossVal, time.ctime()))
+      save_path = saver.save(sess, save_directory)
+      print("Model saved in path: %s" % save_path)
+      f.close()
+    
+    # Testing
+    total_accuracy = 0
+    total_loss = 0
+    for i in range(len(test_img_points_paths)):
+        batch_x = []
+        batch_y = []
+        for j in range(BATCH_SIZE):
+            point_coordinate, npLabelsHotVector, img_path = test_img_points_paths[i][j]
+            img = np.array(Image.open(img_path))
+            img = img / 255.0                                             # Normalization and Flattening/Reshaping
+            img[imgHeight-1, imgWidth-1] = list(point_coordinate)         # Put pixel coordinates in last pixel of image
+            batch_x.append(img)
+            batch_y.append(npLabelsHotVector)
+
+        trainFd = {data_placeholder: batch_x, label_placeholder: batch_y}       # Update parameters
+        accuracy, lossVal = sess.run([nrCorrect,loss], feed_dict=trainFd)
+        total_accuracy += (accuracy * len(batch_x))
+        total_loss += (lossVal * len(batch_x))
+        
+        avg_accuracy = total_accuracy / (len(test_img_points_paths)*BATCH_SIZE)
+        avg_loss = total_loss / (len(test_img_points_paths)*BATCH_SIZE)
+        f=open(result, "a+")
+        result = 'Average Accuracy={:.6f}, Average Loss={:.6f}\r'.format(avg_accuracy, avg_loss)
+        print(result, end='')
+        f.write(result)
+        f.write(time.ctime())
+        f.close()
+        
+    print()

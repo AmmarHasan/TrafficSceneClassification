@@ -86,7 +86,9 @@ ehthumbs.db
 ScreenCapture
 ProcessedImage
 
+result*.txt
 Data
+tmp*
 ImageCapture
 labels.data
 imagesAsArray.data
