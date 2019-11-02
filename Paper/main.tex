@@ -1,0 +1,314 @@
+\documentclass[12pt,oneside]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%   Zusaetzliche Pakete  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{acronym}
+\usepackage{enumerate}
+\usepackage{a4wide}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{palatino}
+\usepackage{blindtext}
+\usepackage{multirow}
+\usepackage[ruled,longend]{algorithm2e}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+%folgende Zeile auskommentieren für englische Arbeiten
+\usepackage[english]{babel}
+
+\usepackage[bookmarks]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a-1b]{pdfx}
+\usepackage[justification=centering]{caption}
+%\usepackage[style=unsrt,natbib=true,backend=biber]{biblatex}
+\usepackage{csquotes}
+\usepackage{url}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Definition der Kopfzeile %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{fancy}
+\fancyhf{}
+\cfoot{\thepage}
+\setlength{\headheight}{16pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Definition des Deckblattes und der Titelseite  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\HSFTitle}[8]{
+
+  \thispagestyle{empty}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{logo.eps} \\
+    \vspace*{\stretch{1}}
+    \end{center}
+
+  %\vspace*{\stretch{1}}
+  {\parindent0cm
+  \rule{\linewidth}{.7ex}}
+  \begin{center}
+    \vspace*{\stretch{1}}
+    \sffamily\bfseries\Huge
+    #1\\
+    \vspace*{\stretch{1}}
+    \sffamily\bfseries\large
+    #3
+    \vspace*{\stretch{1}}
+  \end{center}
+  \rule{\linewidth}{.7ex}
+
+  \vspace*{\stretch{2}}
+  \begin{center}
+    \Large #2 am #5 der HAW Fulda \\
+    \vspace*{\stretch{1}}
+
+    \large Matrikelnummer:  #4 \\[1mm]
+    \large Betreuer:  #7 \\[1mm]
+    \large Zweitgutachter:  #8 \\[1mm]
+
+    \vspace*{\stretch{1}}
+    \large Eingereicht am #6
+  \end{center}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Beginn des Dokuments  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+  \HSFTitle
+      {Sehr langer und ausführlicher Titel der Arbeit unter Einbeziehung aller relevanten Aspekte }        % Titel der Arbeit
+      {Bachelorarbeit} % Typ der Arbeit
+      {Autor}          % Vor- und Nachname des Autors
+      {Matrikelnummer}
+      {Fachbereich AI}  % Name des FBs
+      {dd.mm.yyyy}        % Tag der Abgabe
+      {Erstgutachter}     % Name des Erstgutachters
+      {Zweitgutachter}    % Name des Zweitgutachters
+
+  \clearpage
+
+\lhead{}
+\pagenumbering{Roman}
+    \setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Kurzzusammenfassung   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\markboth{Zusammenfassung}{Zusammenfassung}
+\section*{Zusammenfassung}
+\blindtext
+%
+\markboth{Abstract}{Abstract}
+\section*{Abstract}
+\blindtext
+
+
+
+\clearpage
+\tableofcontents
+\clearpage
+
+\addcontentsline{toc}{section}{\listfigurename}
+\listoffigures
+
+\addcontentsline{toc}{section}{\listtablename}
+\listoftables
+\clearpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Einstellungen  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
+\pagenumbering{arabic}
+    \setcounter{page}{1}
+\lhead{\nouppercase{\leftmark}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Hauptteil  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Einleitung} \label{sec:einleitung}
+Zunächst wird der Kontext der Arbeit eingeführt. Für Nicht-Informatiker! Also: in welchem Umfeld findet die Arbeit statt (Firma, Forschung, welcher Industriezweig, welche thematische Eingruppierung?
+
+Generell soll die Einleitung \textbf{SEHR} ausführlich und pädagogisch anspruchsvoll gestaltet sein! Das ist ein wesentlicher Teil der Note, 10-15 Seiten sind hier nicht zuviel!!
+
+\subsection{Problemstellung und Motivation}
+Was sind die Probleme (beschreiben für nicht-Informatiker), für die diese Arbeit später eine Lösung anbietet? Z.B. Situation in einer Firma (was macht di Firma, was sind tyische Arbeitsabläufe, wo gibt es da Probleme, was kann man als Lösung benutzen?)
+
+\subsection{Ziele der Arbeit}
+Hier in Form einer Bullet-Liste eine kleine Anzahl an Zielen formulieren, die quantifizierbar sein sollten. Das heisst später wird für jedes Ziel ein Experiment oder eine Untersuchung durchgeführt, wo eine Zahl herauskommt, die uns zeigt ob das Ziel erreicht wurde. Auch aus diesem Grund sollte die Zahl der Ziele eher klein sein.
+
+\subsection{Related Work}
+Hier werden Arbeiten genannt die die selben oder ähnliche Ziele haben. Die Arbeiten müssen nur genannt werden, plus eine kurze Erläuterung in wie weit sich deren Ziele von den Zielen der eigenen Arbeit unterscheiden/gleichen. Hier soll NICHT gewertet werden, das passiert ggf. in der Diskussion.
+
+Zulässige Arbeiten sind, in absteigender Reihenfolge:
+\begin{itemize}
+\item Wissenschaftliche Veröffentlichungen mit Peer Review, idealerweise mit DOI. Findet man sehr leicht auf Google Scholar. Google Scholar kann auch einen BibTeX-Eintrag exportieren den man direkt ins .bib-File reinkopieren kann.
+\item White Papers bzw öffentlich zugängliche Dokumente ohne Peer Review. Kann man nur per URL zitieren. Solche PDFs/Dokumente müssen in digitaler Form mit eingereicht werden. Immer klar machen wann das archivierte PDF runtergeladen wurde (Datum)!
+\item Webseiten, v.a. wenn man sich auf Software-Pakete bezieht. Auch nur per URL zitierbar, GitHub-Link bei Open Source-Projekten ist auch ok. Muss nicht archiviert werden, die URL genügt. Solche Quellen nur zitieren wenn es nicht anders geht!
+\end{itemize}
+
+Generell zitiert man Literatur oder URLs so: wie in \cite{clemen1989combining} gezeigt, blablaba. Siehe auch Kap.~\ref{sec:zitate}, \ref{sec:webquellen}.
+
+Oder: \cite{clemen1989combining} verfolgt ähnliche Ziele im Bereich der pervertierten Integralrechnung, ohne aber den Aspekt der invertierten Kupidität genauer zu betrachten.
+
+Oder: In \cite{clemen1989combining} wird eine Untersuchung zur diagonal faktorisierten Matrix-Perversion präsentiert.
+
+Seitenzahlen können, müssen aber i.d.R. nicht angegeben werden.
+
+\section{Grundlagen}\label{sec:grundlagen}
+Zielgruppe: Informatiker mit Bachelor. Erläuterung der methodischen Grundlagen die
+über das hinausgehen was diese Zielgruppe üblicherweise ohne nachzudenken wissen kann.
+Beispiele:
+\begin{itemize}
+\item Erläuterung spezialisierter Bibliotheken und ihrere Benutzung.
+\item Erläuterung komplexerer Konzepte in der gewählten Programmiersprache
+\item Erläuterung des Konzepts der maschinellen Lernens und neuronaler Netze, wenn die Arbeit solche Technisken benutzt
+\item Beschreibung der verwendeten Datenbanken oder Datensätze
+\end{itemize}
+%
+Ziel ist, sich auf dieses Kapitel und Unterkapitel in den folgenden Kapiteln beziehen zu können, damit man dort nicht immer alles nochmal erläutern muss. Also: hier kommen nur Sahcne rein die auch wirklich notwendig sind für das Verständnis der Umsetzung und der Exerimente.
+\subsection{Grundlagenthema 1}\label{sec:grundlagen1}
+\subsection{Grundlagenthema 2}\label{sec:grundlagen2}
+\subsection{Grundlagenthema 3}\label{sec:grundlagen3}
+%
+\section{Umsetzung}\label{sec:umsetzung}
+Sollte sich auf das vorhergehende Kapitel beziehen, also etwa so:
+Die Eingenwert-Zerlegung der Matrix $\Sigma$ wird wie in Kap.~\ref{sec:grundagen1} beschreiben durchgeführt, wobei die lapack-Bibliothek (siehe Kap.~\ref{sec:grundlagen2}) benutzt wird.
+
+Für Software-Entwicklung: Was wurde implementiert, selbst oder nur teilweise selbst? Was ist die Ablauf-Logik des Codes (Blockschaltbilder sind hier gut, auch UML-Diagramme sind gerne gesehen).
+
+\section{Experimente/eigene Untersuchungen}
+
+\section{Diskussion}
+
+\section{Ausblick und Schluss}
+
+\section{LaTeX-Tipps, diese Kapitel kommt in der Arbeit natürlich raus}
+
+\subsection{Mathematische Gleichungen}
+Eine mehrzeilige Gleichung sieht so aus (die Symbole nach den und-Zeichen werden untereinander gesetzt). Die nonmber-Befehle verhindern dass die Gleichung nummertiert wird (Geschmackssache, ist nie falsch wenn eine Gleichung nummeriert ist). Aber: eine Gleichung auf die man refernziert (also die ein Label hat), muss nummeriert sein!
+\begin{align}
+    A &= \sum_{i=1}^N x_i \label{eq:1}\nonumber\\
+    B &= \frac{\pi}{2}
+\end{align}
+
+Eine inline-Gleichung: $x=45b + \frac{2}{3}\pi$. Der Text geht weiter! Auf inline-Gleichungen kann man keine Refernzen erstellen.
+
+\subsection{Das ist eine Auflistung}
+\begin{enumerate}
+\item Element 1
+\item Element 2
+\end{enumerate}
+
+\subsection{Das ist eine Bullet-Liste}
+\begin{itemize}
+\item Element 1
+\item Element 2
+\end{itemize}
+
+
+\subsection{Eine Grafik bindet man so ein}
+Zulässige Formate sind generell eps, pdf und png.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{logo.pdf}
+    \caption{Logo der HAW Fulda}
+    \label{fig:bildchen}
+\end{figure}
+
+\subsection{So schreibt man einen Algorithmus}
+
+\begin{algorithm}[H]
+ \KwData{this text}
+ \KwResult{how to write algorithm }
+ initialization\;
+ \While{not at end of this document}{
+  read current\;
+  \eIf{understand}{
+   go to next section\;
+   current section becomes this one\;
+   }{
+   go back to the beginning of current section\;
+  }
+ }
+ \caption{How to write algorithms\label{alg:dummy}
+ }
+\end{algorithm}
+
+\subsection{So gestaltet man eine Tabelle}
+
+\begin{table}[H]
+\caption{Beispielstabelle\label{tab:beispiel}
+}
+\centering
+\begin{tabular}{llr}
+\hline
+A    & B & C \\
+\hline
+D      & per gram    & 11.65      \\
+          & each        & 1.01       \\
+E       & stuffed     & 32.54      \\
+F       & stuffed     & 73.23      \\
+G & frozen      & 8.39       \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Interne Referenzen}
+So wird ein Kapitel oder Unterkapitel referenziert: Kap.~\ref{sec:einleitung},
+Kap.~\ref{sec:webquellen}. Auf Gleichungen bezieht man sich so: Wie in Gl.~(\ref{eq:1}) gezeigt,
+sehen Gleichungen in der Regel gut aus. Auf Abb.~\ref{fig:bildchen} bezieht man sich so. Auf
+Tab.~\ref{tab:beispiel} referenziert man so. Algorithmen sind analog: siehe Alg.~\ref{alg:dummy}.
+Generell kann man alles zitieren was ein Label hat.
+
+\subsection{Textformatierung}
+\textbf{So wird dick geschrieben} und \textit{so kursiv}.
+
+\subsection{Zitieren}\label{sec:zitate}
+Generell zitiert man so: wie in \cite{clemen1989combining} gezeigt, blablaba. Für jedes zitierte Werk ist ein BibTex-Eintrag nötig! Eine gute Quelle ist Google Scholar!!
+
+\subsection{Webquellen zitieren}\label{sec:webquellen}
+So wird eine Webquelle zitiert: \cite{shiny1}, siehe auch den Eintag im BibTeX-File.
+Wichtig: für jede Web-Quelle ein BibTeX-Eintrag! Wenn Sie das auf die hier gezeigte Art machen, werden URLs (fast) automatisch getrennt. Kontrollieren Sie trotztdem die Literaturliste, es kann sein dass das nicht immer funktioniert.
+
+\subsection{Literaturverzichnis erstellen}
+Hierzu müssen BibTeX-Einträge in die Datei literatur.bib eingefügt werden. Die BibTeX-Keys sind jeweils Argumente für die cite-Kommandos! Wenn Sie literatur.bib ändern müssen Sie alles mindestens 5x compilieren: 3x mit latex, 1x mit BibTex und dann noch 2x mit LaTeX (in der Reihengfolge). Am besten Sie machen ein Skript dafür!
+
+\subsection{Erstellung eines PDFs im PDF-A Format}
+Durch Einbinden geeigneter Packages (pdfx) wird diese Vorlage bereits als PDF-A erzeugt. Sie sollten allerdings die Metadaten in der Datei main.xmpdata anpassen!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Literaturverzeichnis wird
+%% automatisch eingefügt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\bibliographystyle{unsrt}
+\bibliography{literature}
+
+%\lhead{}
+%\printbibliography
+%\addcontentsline{toc}{section}{\bibname}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Eidesstattliche Erklärung
+%% muss angepasst werden
+%% in Erklaerung.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{statement}
+
+\end{document}
