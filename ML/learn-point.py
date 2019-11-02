@@ -11,13 +11,13 @@ import time
 imgWidth,imgHeight,imageType = (256, 144, 'png')
 full_res_image_path = 'Data/ScreenCapture-3'
 trainDirectory = full_res_image_path+'/images_train-'+str(imgWidth)+'x'+str(imgHeight)+'-'+imageType
-data_path = trainDirectory + '/shuffled_img_paths.npy'
-result='result.txt'
-save_directory='./tmp/model.ckpt'
+data_path = full_res_image_path + '/shuffled_img_paths_all.npy'
+result='result-all.txt'
+save_directory='./tmp-all/model.ckpt'
 lrs = [0.1, 0.05, 0.01, 0.005, 0.001, 0.0005]
-classes = [ 'outside', 'lane1', 'lane2', 'lane3', 'lane4', ]
+classes = [ 'outside', 'lane1', 'lane2', 'lane3', 'lane4']
 totalClasses = len(classes)
-EPOCHS = 50
+EPOCHS = 15
 BATCH_SIZE = 128
 
 def batch(iterable, n=1):
@@ -93,20 +93,7 @@ def getModel():
   optimizer = tf.train.GradientDescentOptimizer(learning_rate = lrs[2])
   update = optimizer.minimize(loss)
   return (logits, update, nrCorrect, loss, data_placeholder, label_placeholder)
-  
-# ## Learn
-# Model Evaluation
-def evaluate(X_data, y_data):
-    num_examples = len(X_data)
-    total_accuracy = 0
-    total_loss = 0
-    sess = tf.get_default_session()
-    for offset in range(0, num_examples, BATCH_SIZE):
-        batch_x, batch_y = X_data[offset:offset+BATCH_SIZE], y_data[offset:offset+BATCH_SIZE]
-        accuracy, lossVal = sess.run([nrCorrect,loss], feed_dict={data_placeholder: batch_x, label_placeholder: batch_y})
-        total_accuracy += (accuracy * len(batch_x))
-        total_loss += (lossVal * len(batch_x))
-    return (total_accuracy / num_examples, total_loss / num_examples)
+
 
 shuffled_img_paths=np.load(data_path, allow_pickle=True)
 
@@ -137,6 +124,8 @@ with tf.Session() as sess:
           batch_y = []
           for j in range(BATCH_SIZE):
               point_coordinate, npLabelsHotVector, img_path = train_img_points_paths[i][j]
+              img_name = img_path.split('/')[-1]
+              img_path = trainDirectory+'/'+img_name
               img = np.array(Image.open(img_path))
               img = img / 255.0                                             # Normalization and Flattening/Reshaping
               img[imgHeight-1, imgWidth-1] = list(point_coordinate)         # Put pixel coordinates in last pixel of image
@@ -155,33 +144,3 @@ with tf.Session() as sess:
       save_path = saver.save(sess, save_directory)
       print("Model saved in path: %s" % save_path)
       f.close()
-    
-    # Testing
-    total_accuracy = 0
-    total_loss = 0
-    for i in range(len(test_img_points_paths)):
-        batch_x = []
-        batch_y = []
-        for j in range(BATCH_SIZE):
-            point_coordinate, npLabelsHotVector, img_path = test_img_points_paths[i][j]
-            img = np.array(Image.open(img_path))
-            img = img / 255.0                                             # Normalization and Flattening/Reshaping
-            img[imgHeight-1, imgWidth-1] = list(point_coordinate)         # Put pixel coordinates in last pixel of image
-            batch_x.append(img)
-            batch_y.append(npLabelsHotVector)
-
-        trainFd = {data_placeholder: batch_x, label_placeholder: batch_y}       # Update parameters
-        accuracy, lossVal = sess.run([nrCorrect,loss], feed_dict=trainFd)
-        total_accuracy += (accuracy * len(batch_x))
-        total_loss += (lossVal * len(batch_x))
-        
-        avg_accuracy = total_accuracy / (len(test_img_points_paths)*BATCH_SIZE)
-        avg_loss = total_loss / (len(test_img_points_paths)*BATCH_SIZE)
-        f=open(result, "a+")
-        result = 'Average Accuracy={:.6f}, Average Loss={:.6f}\r'.format(avg_accuracy, avg_loss)
-        print(result, end='')
-        f.write(result)
-        f.write(time.ctime())
-        f.close()
-        
-    print()
