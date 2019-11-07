@@ -1,0 +1,59 @@
+
+FIGURE
+----------------------------------
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{sample.png}
+\caption{caption for figure}
+\label{fig1}
+\end{figure}
+
+\ref{fig1}
+
+
+
+
+
+
+TABLE
+----------------------------------
+\begin{table}[H]
+\centering
+\begin{tabular}{l | l | l}
+A & B & C \\
+\hline
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{tabular}
+\caption{caption for table}
+\label{tab1}
+\end{table}
+
+\ref{tab1}
+
+
+
+
+
+
+Bibliography reference
+----------------------------------
+First save the reference in References/references.bib with BibTex format and then refer that with id:
+\cite[see ][]{id1}
+
+
+
+
+
+Code (Java, Python, XML, sh etc.)
+----------------------------------
+NOTE: To use minted package, install pygments via easy_install or equaivalent in other OS.
+
+\begin{listing}[H]
+\inputminted[frame=lines,framesep=2mm,baselinestretch=1.2,fontsize=\scriptsize,linenos]{java}{Chapter1/some_text.java}
+\caption{cpation1232}
+\label{labl12312}
+\end{listing}
+
+scopes use firstLine=2, lastLine=12 in [] of \inputminted above
+

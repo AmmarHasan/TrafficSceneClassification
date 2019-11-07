@@ -1,0 +1,60 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[toc,page]{appendix}
+
+% contains packages and layout settings
+\input{Preamble/preamble}
+
+% thesis title and author information
+\input{thesis-info}
+
+\begin{document}
+\pagenumbering{roman}
+
+% frontmatter
+\input{frontmatter/title}
+\input{frontmatter/abstract}
+\input{frontmatter/declaration}
+\input{frontmatter/acknowledgement}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\listoflistings
+\newpage
+\pagenumbering{arabic}
+
+\chapter{Introduction}
+\label{chap:1}
+\input{Chapter1/chapter1}
+
+\chapter{Fundamentals - Machine Learning and Artificial Neural Networks}
+\label{chap:2}
+\input{Chapter2/chapter2}
+
+\chapter{Dataset Gathering, Preparation \& Pre-processing}
+\label{chap:3}
+\input{Chapter3/chapter3}
+
+\chapter{Methodology}
+\label{chap:4}
+\input{Chapter4/chapter4}
+
+\chapter{Implementation, Experiment and Evaluation of Results}
+\label{chap:5}
+\input{Chapter5/chapter5}
+
+\chapter{Conclusion and Future Work}
+\label{chap:6}
+\input{Chapter6/chapter6}
+
+% appendix
+\cleardoublepage
+\begin{appendices}
+\chapter{}
+\input{Appendix/appendix.tex}
+\end{appendices}
+
+% bibliography
+\bibliography{References/references}
+
+\end{document}
