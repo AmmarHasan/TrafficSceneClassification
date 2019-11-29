@@ -5,6 +5,7 @@ import os
 import random
 import numpy.random as npr
 from keras.utils import to_categorical
+import pickle
 
 def createDirectory(directory):
   if not os.path.exists(directory):
@@ -16,7 +17,7 @@ px,py,imageType = (256, 144, 'png')
 full_res_image_path = 'Data/ScreenCapture-3'
 annotationDirectory = full_res_image_path + '/images_segmented-'+ str(px)+'x'+str(py)+'-'+imageType  # -224x128-png/'
 trainDirectory = full_res_image_path + '/images_train-'+ str(px)+'x'+str(py)+'-'+imageType  # -224x128-png/'
-data_path = full_res_image_path + '/shuffled_img_pathsasd.npy'
+data_path = full_res_image_path + '/shuffled_img_paths-test.p'
 verticalPoints = range(int(py*0.35), py-1) # Ignoring upper half of images
 horizontalPoints = range(0, px-1)
 allCoordinates = [(y,x) for x in horizontalPoints for y in verticalPoints]
@@ -56,14 +57,14 @@ for filePath in Path(annotationDirectory).glob('*' + imageType):
       continue
     npLabels = classes.index(pixel_class)
     npLabelsHotVector = to_categorical(npLabels, num_classes=len(classes))
-    segmented_pixels[pixel_class].append([coordinate+(0,), npLabelsHotVector.tolist(), str(filePath)])
+    segmented_pixels[pixel_class].append([coordinate+(0,), npLabelsHotVector.tolist(), trainDirectory+'/'+filePath.name])
 
   random_points = []
   points_count = 0
   for segment in segmented_pixels:
     no_of_segmented_pixels = len(segmented_pixels[segment])
     counter = 0
-    print(segment, no_of_segmented_pixels)
+    # print(segment, no_of_segmented_pixels)
     while (no_of_segmented_pixels>0 and counter<no_of_segmented_pixels and counter<400):
       counter+=1
       points_count+=1
@@ -74,4 +75,23 @@ for filePath in Path(annotationDirectory).glob('*' + imageType):
 
 npr.shuffle(all_random_points)
 print("shuffled")
-np.save(data_path, all_random_points)
+for data in all_random_points:
+  with open(data_path, 'ab') as fp:
+    pickle.dump(data, fp)
+# np.save(data_path, all_random_points)
+
+all_random_points = None
+print("saved")
+#To load from pickle file
+data = []
+with open(data_path, 'rb') as fr:
+    try:
+        while True:
+            data.append(pickle.load(fr))
+    except EOFError:
+        pass
+print(data[0])
+print(data[1])
+print(data[2])
+print(len(data))
+input('press enter')
