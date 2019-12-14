@@ -85,3 +85,9 @@ LeNet-5 consists of 7 layers. These layers contain trainable weights. The input,
 \section{Proposed Model}
 \par
 We have used LeNet-5 architecture because of its simplicity and understandability. Since, our goal is to classify a pixel or region of interest instead of classifying the whole image, we have to tweak the model a little bit. As we have explained above, LeNet-5 model takes an image, we are providing the model a traffic scene image but with pixel coordinates replacing the last pixel in the image. Since our input image size is 256x144, layer's input and output size has been changed. Also we have replaced average pooling layer with max-pooling because max-pooling works better and replaced sigmoid activation function with ReLU activation function because are now known to work more reliably. Because average pooling layer and sigmoid activation function had not been invented at the time when LeChun proposed LeNet-5 \cite{lecun1998gradient}. In the end, the model is trained on the labels that we gathered using segmented image. So our model has 5 output classes namely: lane1 (the rightmost lane), lane2, lane3, lane4 and outside (a pixel that is outside the road).
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.60]{images/Chapter4/proposed_model.png}
+  \caption{Compressed notation for our propsed model}
+  \label{fig:remote_ssh}
+\end{figure}
