@@ -40,6 +40,16 @@
 \graphicspath{ {images/} }
 
 % coding color scheme and style
+\usepackage[dvipsnames]{xcolor}
+\definecolor{Terrrain}{RGB}{  0, 255, 255}
+\definecolor{Tree}{RGB}{255, 255,   0}
+\definecolor{House}{RGB}{255,   0, 255}
+\definecolor{Ego}{RGB}{255, 153, 153}
+\definecolor{Lane1}{RGB}{153, 255, 153}
+\definecolor{Lane2}{RGB}{128, 128, 128}
+\definecolor{Lane3}{RGB}{ 76,  76,  76}
+\definecolor{Lane4}{RGB}{128, 128,  76}
+\newcommand{\thiscolor}[1]{\fcolorbox{black}{#1}{\hspace{3mm}}}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{minted}
