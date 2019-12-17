@@ -170,4 +170,10 @@ In our simulation we have different kinds of objects namely sky, terrain, trees,
 \label{color_code}
 \end{table}
 
-The lane 1 is right-most lane and lane 4 is left-most lane in our dataset. Then we generated random 1200 pixel coordinates for each image and get pixel-wise label using the segmented image. After that we randomize it store it in a file so it can be used in our model training process.
+The lane 1 is right-most lane and lane 4 is left-most lane in our dataset. Then we generated random 1200 pixel coordinates for each image and get pixel-wise label using the segmented image. After that we randomize it store the pixel coordinates, the class it belongs to and the image it is taken from in a file so it can be used in our model training process as shown in \ref{lst:points_data}. This makes a total of 18,183,771 pixels.
+
+\begin{listing}
+  \inputminted[frame=lines,framesep=2mm,baselinestretch=1.2,fontsize=\scriptsize,linenos]{text}{Chapter5/points_data.txt}
+  \caption{Point coordinate and label data}
+  \label{lst:points_data}
+\end{listing}

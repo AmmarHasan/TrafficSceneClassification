@@ -1,28 +1,38 @@
+Computer vision is a lucrative field of artificical intelligence and there is a lot of research going on in this field \cite{Szegedy_2016_CVPR} \cite{wright2010sparse} \cite{vedaldi2010vlfeat}. Computer vision is an interdisciplinary study that extracts interpretations of the world from pictures or sequence of pictures and can automate tasks that the human visual system can do. It has even surpassed human visual abilities in some areas. It is being used in a lot of different real-world applications including medical imaging, retail, optical character recognition, 3D model building, surveillance, motion capture, automotive safety, machine safety, etc \cite{cv_book}. Computer vision is not new field. It has been around for 1950s and its first commercial use in recognition of handwritten or typed text took place in 1970s. The emergence of computer vision today is due to a number of factors including: affordable and easily accessible computer power, large amount of photos and videos from mobile phones and development of algorithms like convolutional neural network optimized for computer vision taking advantage of software and hardware capabilities. There are many different tasks \ref{fig:computer_vision_tasks} in the field of computer vision including Object Detection, Object Localization, Image Classification, Image captioning, Instance Segmentation, Semantic Segmentation, etc. \textit{Image classification} is the process of taking an image as an input and outputting a class or a probability that the input image is of a specific class. For example classifying cats or dogs from images. \textit{Object classification and localization} just adjust the output labels from the image classification algorithm to make our model learn the object category as well as the object's location in the image. The output layer gives 4 more numbers which are the center location (x and y coordinates) of the object and the width and height of the bounding box in the image. For \textit{multiple objects detection and localization} the only difference is that we want our model to be able to classify and locate all objects in an image, not just one. Its most common applications are in surveillance, security and self-driving vehicles. We can find a lot of pre-trained models for object detection today such as Multibox, RCNN, Fast RCNN, Mask RCNN, YOLO, etc. \textit{Semantic segmentation} is a process that seeks to recognize or undertstand what is in an image at pixel level or simply image classification at pixel level. It does so by labeling each pixel in the image with a category label. For example labels could be cat, grass, tree, and sky in the Figure \ref{fig:computer_vision_tasks}. However, it does not differentiate among instances. Robot vision, autonomous driving and medical imaging are some areas where it is very useful. \textit{Instance segmentation} is the task of identifying and distinguishing each separate object of interest that appears in an image.
 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.35]{images/Chapter1/computer_vision_tasks.png}
+  \caption{Different tasks in Computer Vision \cite{cv_tasks}}
+  \label{fig:computer_vision_tasks}
+\end{figure}
+
+% ImageNet, the competion
+
+% The convolutional neural network (CNN) is a class of deep learning neural networks. CNNs represent a huge breakthrough in image recognition. They’re most commonly used to analyze visual imagery and are frequently working behind the scenes in image classification. They can be found at the core of everything from Facebook’s photo tagging to self-driving cars. They’re working hard behind the scenes in everything from healthcare to security.
+
+% Computer vision
+% Scene classification, places
+% talk about state
+% wwrite about public datasets like cityscape and synthia, kitti, commo, pascal voc
+% 
 \section{Motivation}
-% Scene understanding is a prerequisite to many high level tasks for any automated intelligent machine operating in real world environments
+% self driving , autonomuous car
+% semantic segmentation is heavy that's why simple cnn
+% discussion on pop conv nets, lenet has become hello
+%  Focus on single multi-lane highway without lane markings
+
+The development of autonomous systems is capable of supporting people in daily tasks is one of the major challenges in modern computer science. Autonomous driving systems are one example that can help to reduce casualties caused by traffic accidents. Although autonomous driving systems commonly use GPS, radar, laser range finders, LIDAR and high precision environmental maps. But, LIDAR for example can be very expensive solutions \cite{verge_elon_lidar}. In this thesis we aim at cheaper solutions by using visual sensors for tasks such as object detection, navigation and manipulation. Scene classification is a requirement for many high levels of work in real-world environments for any automated smart machine and is an important aspect of computer vision. \q{Convolutional networks are at the core of most stateof-the-art computer vision solutions for a wide variety of tasks} \cite{Szegedy_2016_CVPR}. But training CNNs requires large-scale datasets. Transfer learning addresses this problem and produces a solution for small-scale datasets. So the cheaper option is to use synthetic data. We need to develop computer simulation, like a car racing game, to mimick videos taken from dashboard camera and gether synthetic data. We know that semantic annotation of different objects precisely at pixel level is humanly impossible. That is why specialized softwares like LabelImg \cite{LabelImg}, Supervisely \cite{supervise}, LabelBox \cite{labelbox}, etc are used to annotate images. But still annotating thousands of images is pretty hefty task. That is why we need to annotate the data gathered from our computer simulation automatically or very less human efforts.
 
 % air sim is High-Fidelity, ours is low fide for simlicity
 
-% a lot of time and efforts in image annotation but still inaccurate expensive. it is humanely impossible to label each pixel by hand. Specilaized softwares to do that 
 
 % Scene classification is a significant aspect of computer vision. Convolutional neural networks (CNNs), a development of deep learning, are a well-understood tool for image classification. But training CNNs requires large-scale datasets. Transfer learning addresses this problem and produces a solution for small-scale datasets.
 
 % A convolutional neural network (CNN) trained on ImageNet (Deng et al., 2009) significantly outperforms the best hand crafted features on the ImageNet challenge (Russakovsky et al., 2014). But more surprisingly, the same network, when used as a generic feature extractor, is also very successful at other tasks like object detection on the PASCAL VOC dataset (Everingham et al., 2010).
 
 % Convolutional neural networks have recently obtained astonishing performance on object classifi- cation (Krizhevsky et al., 2012) and scene classification (Zhou et al., 2014). 
-
-% Developing autonomous systems that are able to assist
-% humans in everyday tasks is one of the grand challenges in
-% modern computer science. One example are autonomous
-% driving systems which can help decrease fatalities caused
-% by traffic accidents. While a variety of novel sensors have
-% been used in the past few years for tasks such as recognition,
-% navigation and manipulation of objects, visual sensors are
-% rarely exploited in robotics applications: Autonomous driving systems rely mostly on GPS, laser range finders, radar
-% as well as very accurate maps of the environment
-
-% Scene understanding is a prerequisite to many high level tasks for any automated intelligent machine operating in real world environments
 
 % We also plot the confidence in the final per-pixel segmentation label predictions as the ratio of probabilities of second best label to the best label. As seen clearly in the Fig. 9, higher uncertainty occurs mostly at the object boundaries. We also tried variation ratio of the final class labels returned by using dropout for each pixel at test time[15] [23] but did not find it any more informative.
 
@@ -33,13 +43,9 @@
 
 % Convolutional neural networks have recently obtained astonishing performance on object classification (Krizhevsky et al., 2012) and scene classification (Zhou et al., 2014). The ImageNet-CNN from Jia (2013) is trained on 1.3 million images from 1000 object categories of ImageNet (ILSVRC 2012) and achieves a top-1 accuracy of 57.4%. With the same network architecture, Places-CNN is trained on 2.4 million images from 205 scene categories of Places Database (Zhou et al., 2014), and achieves a top-1 accuracy of 50.0%. 
 
-% Monitoring of winter road surface conditions during and after a snow storm is essential for most transportation agencies in Canada and other countries experiencing severe winter seasons. Information on road surface conditions can be used to assess the need for maintenance services, compare the effectiveness of different treatment methods, and evaluate the quality of the maintenance services delivered by contractors across different maintenance yards. Real-time information on road surface conditions is also valuable to the road users who can use the information to improve their travel and driving decisions such as where, when and in what mode to travel.
 
-% discussion on pop conv nets, lenet has become hello
-%  Focus on single multi-lane highway without lane markings
-% wwrite about datasets like cityscape and synthia
 \section{Thesis Goal}
-This thesis aims at developing a machine learning model which can differentiate between lanes in a image of single or multi-lane highway. The model should be able to take image and a point coordinate as inputs and predicts the lane on which point exists.
+This thesis aims at developing a machine learning model which can differentiate between lanes in a image of single or multi-lane highway. We need a large amount of image data of traffic scenes to be used by machine learning model in order to give correct predictions. Since, gathering high-quality real world labelled data of traffic scene in abundance is not feasible, we aim to gather the data through a computer simulation. Then we need to label the data automatically. The model should be able to take image and a point coordinate as inputs and predicts the lane on which point exists. Keeping in mind that our data is in image format and we aim to classify a point in image, we need to choose an algorithm for that and implement it. In the end we need to evaluate the results and show our predictions in human understandable form.
 \section{Related Work}
 In this section, we will explore the research on traffic scene classification done by other computer scientists.
 \subsection{Related Research: I}

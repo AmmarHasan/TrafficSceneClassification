@@ -1,0 +1,13 @@
+[(89, 12, 0), list([0.0, 0.0, 0.0, 1.0]), 'Data/ScreenCapture-3/images_segmented-256x144-png/5721-3.png']
+
+[(91, 94, 0), list([0.0, 1.0, 0.0, 0.0]), 'Data/ScreenCapture-3/images_segmented-256x144-png/6134-3.png']
+
+[(95, 222, 0), list([1.0, 0.0, 0.0, 0.0]), 'Data/ScreenCapture-3/images_segmented-256x144-png/4318-3.png']
+
+[(57, 21, 0), list([1.0, 0.0, 0.0, 0.0]), 'Data/ScreenCapture-3/images_segmented-256x144-png/5717-3.png']
+
+[(83, 40, 0), list([0.0, 0.0, 0.0, 1.0]), 'Data/ScreenCapture-3/images_segmented-256x144-png/5461-3.png']
+
+[(67, 76, 0), list([1.0, 0.0, 0.0, 0.0]), 'Data/ScreenCapture-3/images_segmented-256x144-png/6208-3.png']
+
+[(110, 24, 0), list([0.0, 0.0, 1.0, 0.0]), 'Data/ScreenCapture-3/images_segmented-256x144-png/3967-3.png']

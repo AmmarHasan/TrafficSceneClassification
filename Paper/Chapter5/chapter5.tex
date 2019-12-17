@@ -1,5 +1,8 @@
 % occuluded images
-The process of locating and fixing defects or problems within a computer program or debugging is twice as hard as writing the program. Languages and frameworks usually provide documentation for debugging. In case of debugging neural networks in Tensorflow the challenge grows even more because of its working. Tensorboard is a effective tool provided by Google for debugging and visualizations.
+\section{Experiment}
+We gathered a total of 16000 images for single and multi-lane highway as discussed in Chapter \ref{chap3}. From each of these images we randomly picked approximately 1200 pixels. This makes a total of 18,183,771 pixels. For each pixel we are storing their coordinates, the class it belongs to in a file and the image it is taken from as shown in \ref{lst:points_data}. The image from path information and the pixel coordinate are the input to our model and the class in shape of one-hot vector is the label. The model proposed in the previous chapter was executed with 80\% of the total pixels i.e 14,547,016. And the remaining 20\% pixels i.e 3,636,754 will be used for testing.
+
+While implementing the model we faced some bugs or unwanted results as well. The process of locating and fixing defects or problems within a computer program or debugging is twice as hard as writing the program. Languages and frameworks usually provide documentation for debugging. In case of debugging neural networks in Tensorflow the challenge grows even more because of its working. Tensorboard is a effective tool provided by Google for debugging and visualizations.
 
 We have visualized the conceptual graph of our proposed model's structure so we can easily explore and make sure that it matches our planned design. We can also view inputs, outputs and shapes through it. We can use name scopes to group together variables and operations as shown in the code \ref{lst:name_scope}:
 \par
@@ -23,8 +26,9 @@ We can start the Tensorboard serve by run the following command in terminal:
 
 Note, that we have added \textit{port} flag to the command. This is because our tensorboard server is running in the university's cluster and we have port-forwaded the port \textit{3001} so we can access it in my browser through http://localhost:3001/.
 
-\section{Accuracy}
-We trained our neural network with 10 epochs and got the final accuracy of 99\%. If we see the Figure 5.7, we will see that we are getting a high accuracy of around 96\% for training data from the very first epoch and after that, the accuracy remains constant of 100\% for the rest of epochs however for test data we are getting the 100\% accuracy since the beginning. Although this may indicate a scenario of overfitting but, it needs to understand the nature of data at this stage. In our data, each input record contains more or less same kind of data with a little bit of variation for each document type which makes this problem very simple to understand for the model.
+\section{Evaluation}
+\subsection{Accuracy}
+The Figure \ref{fig:accuracy} shows the accuracy of our model on training data. We trained our neural network with batch size of 128 for 10 epochs \ref{lst:log} with a sample size of 14,547,016 and got the final accuracy of 99\%. On running the same model on test data of 3,636,754 samples we get the accuracy of 98\%. Although, the accuracy of model is very good but it also indicates that either our data is very simple or we are overfitting.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.40]{images/Chapter5/accuracy.png}
@@ -32,11 +36,14 @@ We trained our neural network with 10 epochs and got the final accuracy of 99\%.
   \label{fig:accuracy}
 \end{figure}
 
-\section{Loss}
-Cross Entropy Loss is usually used with multi-class classification problems. Cross Entropy Loss with Softmax function are used extensively as the output layer. Softmax function ensures normalization which means the sum of the components of the output vector is 1 and each one of them is positive and bounded. This function enhances the biggest values and suppresses the smallest values. We are using \textit{softmax\_cross\_entropy\_with\_logits\_v2} function of Tensorflow which gives softmax cross entropy between labels and logits. The loss value graph is shown in Figure \ref{fig:loss}. The lowest the loss value is, the better a model is trained.
+\begin{listing}
+  \inputminted[frame=lines,framesep=2mm,baselinestretch=1.2,fontsize=\scriptsize,linenos]{text}{Chapter5/epoch.txt}
+  \caption{Training log}
+  \label{lst:log}
+\end{listing}
 
-Whereas, if we see the graph of loss value in Figure \ref{fig:loss} for the model then again, we are getting a very low final loss value of 0.000404. The loss value needs to be as low as possible to have a well-trained model. For the training data, the loss value starts at 0.4 on the first epoch and then decreased to almost 0 after that whereas the test data started with the low loss value from the beginning.
-
+\subsection{Loss}
+Cross Entropy Loss is usually used with multi-class classification problems. Cross Entropy Loss with Softmax function are used extensively as the output layer. Softmax function ensures normalization which means the sum of the components of the output vector is 1 and each one of them is positive and bounded. This function enhances the biggest values and suppresses the smallest values. We are using \textit{softmax\_cross\_entropy\_with\_logits\_v2} function of Tensorflow which gives softmax cross entropy between labels and logits. The loss value graph is shown in Figure \ref{fig:loss}. The lowest the loss value is, the better a model is trained. After 10 Epochs we got a loss value of 0.025985, which is agood sign.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.40]{images/Chapter5/loss.png}
@@ -45,7 +52,7 @@ Whereas, if we see the graph of loss value in Figure \ref{fig:loss} for the mode
 \end{figure}
 
 
-\section{Visualization}
+\subsection{Visualization}
 Visualization is a powerful tool to communicate ideas, tell a story or show results in the form of graphs, charts, or maps. It is also helpful in finding patterns. Although, our model accuracy is very good, we wrote a script \ref{lst:visualize} to visualize our predictions in order show the results in human understandable form. First of all we are generating a grid of point coordinates in the area we are most interested in. ThenNote that each point is a separate prediction plotted on the respective image. As we discussed in previous chapter, our model takes in an image as input with point coordinates to predict. So we put the point coordinates in the last pixel of the image. Then we are restoring the trained model which was saved during the training process. Getting the output of the trained model tells us, to which lane or outside of lane does the point coordinate belongs to. We color coded the predicted points as shown in Table \ref{color_code_visualization}. Each predicted point is plotted at the respective coordinate over the image. With the help of background image we can identify wheater the predicted points are correctly classified.
 \begin{listing}
   \inputminted[frame=lines,framesep=2mm,baselinestretch=1.2,fontsize=\scriptsize,linenos]{python}{Chapter5/visualize.py}
