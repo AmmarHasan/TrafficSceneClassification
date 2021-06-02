@@ -127,7 +127,7 @@ tornado==6.0.3
 traitlets==4.3.2
 ubuntu-drivers-common==0.0.0
 ufw==0.35
-urllib3==1.25.3
+urllib3==1.26.5
 virtualenv==16.6.2
 wcwidth==0.1.7
 webencodings==0.5.1
