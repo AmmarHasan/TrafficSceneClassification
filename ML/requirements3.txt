@@ -60,7 +60,7 @@ nbconvert==5.5.0
 nbformat==4.4.0
 netaddr==0.7.19
 netifaces==0.10.4
-notebook==6.0.0
+notebook==6.4.12
 numpy==1.15.4
 onboard==1.4.1
 oslo.config==6.8.0
