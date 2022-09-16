@@ -65,7 +65,7 @@ numpy==1.15.4
 onboard==1.4.1
 oslo.config==6.8.0
 oslo.i18n==3.23.0
-oslo.utils==3.40.1
+oslo.utils==4.10.1
 PAM==0.4.2
 pandas==0.24.2
 pandocfilters==1.4.2
